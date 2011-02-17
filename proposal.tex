@@ -1,0 +1,61 @@
+%Copyright 2011 Russell Miller & Ben Carr
+% Please see included LICENSE file
+
+\documentclass[12pt]{amsart}
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\usepackage{amsmath}
+\usepackage{ amssymb }
+\geometry{a4paper} % or letter or a5paper or ... etc
+
+\title{CS350 Term Project (Proposal)}
+\author{Ben Carr and Russell Miller}
+\date{\today} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+
+\section*{}
+\subsection*{}
+
+
+Our term project will focus on sorting algorithms. We would like to compare several sorting algorithms: \\ \\
+\begin{itemize}
+\item Bubble, average  $O(n^2)$, worst-case $O(n^2)$\\
+\item Insertion, average $O(n^2)$, worst-case $O(n^2)$\\
+\item Quick, average $O(n lg n)$ worst-case $O(n^2)$\\
+\item Merge, average and worst-case $O(n lg n)$\\
+\end{itemize}
+(We may also try bucket sort (average $O(n)$, worst-case $O(n^2)$), time permitting, as it is more complex to implement.)\\ \\
+Our goal is to implement each of these algorithms in Python, Java, C++ and Haskell, (approximately 20 algorithms in all). Russell will write the Python and Java code, and Ben will write C++ and Haskell. We will test our algorithms on unordered lists of integers. Each algorithm will sort the same 1000 lists of size \\
+$n = \{10 \; 50 \; 100 \;500\; 1,000\; 5,000\; 10,000\; 50,000 \;100,000\; 500,000 \\1,000,000\; 5,000,000 \;1,000,000,000\}$ that will be read from an external data file.\\ \\
+We are creating a generator program that will aide in this process by:\\
+\begin{itemize}
+\item creating the sample data files (lists of n integers)
+\item executing and timing our algorithms 
+\item writing the results to a .csv file\\
+\end{itemize}
+Our final report will have a discussion of our algorithms, and comparisons of their performance. I would like to 
+graph the comparisons of the algorithms against each other, and also create "consistency graphs" that show that
+the expected complexities are consistent.We will also discuss how complexity theory shows up in practice.\\ \\
+Our goals for the next three weeks are as follows:\\ \\
+WEEK 1:\\ \\
+1. make a generator that:
+\begin{itemize}
+\item creates sample data in an external file
+\item executes and times our algorithms (in any language)
+\item writes the results to a .csv file\\
+\end{itemize}
+2. Finish at least two algorithms in C++ and Python that we can use to test the generator. \\
+3. Test .csv file in spreadsheet program\\ \\
+WEEK 2:\\ \\
+1. Finish the rest of the C++ and Python algorithms\\ 
+2. Graph results of all implemented algorithms\\
+3. Start Java and Haskell implementation\\ \\
+WEEK 3:\\ \\
+1. Finish writing and graphing Java and Haskell algorithms\\
+2. Analyze/Discuss our findings\\
+3. Write up our results for term paper.\\
+\end{document}
