@@ -10,7 +10,7 @@ Our term project will focus on sorting algorithms. We would like to compare seve
 Our goal is to implement each of these algorithms in Python, Java, C++ and Haskell, (~20 algorithms
 in all). Russell will write the Python and Java code, and Ben will write C++ and Haskell. We will test our algorithms
 on unordered lists of integers. Each algorithm will sort the same 1000 lists of size 
-n = {10, 100, 1,000, 10,000, 100,000, 1,000,000, 1,000,000,000} that will be read from an external data file.
+n = {10, 50, 100, 500, 1,000, 5,000, 10,000, 50,000, 100,000, 500,000, 1,000,000, 5,000,000, 1,000,000,000} that will be read from an external data file.
 We are creating a generator program that will aide in this process by:
 
 	- creating the sample data files (lists of n integers)
