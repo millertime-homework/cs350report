@@ -15,14 +15,23 @@ int main()
 	}
 	cout << "}\n";
 	bubbleSort(list);
+	n = 0;
+	cout << "sorted list:\n{";
+	while (list[n] != '\0')
+	{
+		cout << list[n] << ", "; 
+		++n;
+	}
+	cout << "}\n";
 	return 0;
 }
 
 void bubbleSort(int array[])
 {
+	int swap;
 	do{
+		swap = 0;
 		int n = 1;
-		int swap = 0;
 		while (array[n] != '\0')
 		{
 			if (array[n-1] > array[n])
