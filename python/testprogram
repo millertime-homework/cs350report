@@ -1,8 +1,0 @@
-#!/usr/bin/python
-
-def main():
-    a = 4+4
-    assert(a==8)
-
-if __name__=="__main__":
-   main()
