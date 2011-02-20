@@ -13,18 +13,18 @@ def main():
     if len(sys.argv) != 2:
         print("Fail! Supply filename")
     l = getlist(sys.argv[1])
-    sl = sortit(l)
+    sl = quicksort(l)
     print(sl)
 
 def getlist(filename):
     """Open and read file, massage string into list"""
     f = open(filename)
-    s = f.read()[1:-1]
+    s = f.read()
     f.close()
-    l = map(int, s.split(', '))
+    l = map(int, s.split("\n"))
     return l
 
-def sortit(the_list):
+def quicksort(the_list):
     """QuickSort algorithm"""
     if len(the_list) <= 1:
         return the_list
@@ -36,7 +36,7 @@ def sortit(the_list):
             smaller.append(item)
         else:
             larger.append(item)
-    return (sortit(smaller) + [pivot] + sortit(larger))
+    return (quicksort(smaller) + [pivot] + quicksort(larger))
 
 if __name__=="__main__":
     main()
