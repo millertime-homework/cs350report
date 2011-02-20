@@ -29,7 +29,7 @@ def makelists(n):
     i = 1
     for l in lists:
         f = open("size" + n + "/list" + str(i), 'w')
-        f.write(str(l))
+        f.write("\n".join(map(str, (l))))
         f.close()
         i += 1
 
