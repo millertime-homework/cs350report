@@ -12,7 +12,7 @@ from subprocess import Popen,PIPE
 def main():
     """Handle the argv"""
     if len(sys.argv) != 2:
-        print("Yo dawg. You did it wrong. It's `python lists.py n `")
+        print("Yo dawg. You did it wrong. It's `python lists.py n`")
         exit()
     makelists(sys.argv[1])
 
@@ -22,7 +22,7 @@ def makelists(n):
     lists = []
     for i in range(1000):
         newlist = []
-        for i in range(int(n)):
+        for j in range(int(n)):
             newlist.append(random.randint(0,int(n)))
         lists.append(newlist)
 

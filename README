@@ -1,2 +1,23 @@
-fun!
-This is a readme file!
+Our goal in this assignment is to demonstrate the complexity levels of several sorting algorithms.
+There are asymptotic time complexities for the algorithms we've selected, but it might be
+interesting to see what the "N" and "c" values are for that asymptotic estimation.
+We're going to implement these algorithms in several languages and graph their performance on
+many, many test cases. We'll use randomly generated values in a large range of structure sizes.
+
+The data that is being sorted is just integers, and they are randomly generated using Python.
+The same set of generated lists will be used in every algorithm in every language. Because of the
+size of these random integers, they will not be included in the final product, however we will
+include the script that generated them.
+
+Languages we're planning to implement the sorts with:
+
+Python, Java, C++, Haskell
+
+Sorting Algorithms:
+
+Bubble, Insertion, Merge, Quick
+
+Our hypotheses will, of course, be that we expect our graphs to agree with the asymptotic
+time-complexities of these algorithms. The interesting thing to see in the results will be how
+these algorithms scale in the different programming languages we use, as well as seeing how
+algorithms of the same complexity appear to scale in general.
