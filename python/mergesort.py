@@ -6,7 +6,7 @@
 # mergesort.py
 # MergeSort - implemented in Python
 
-from quicksort import getlist
+from sort_utils import getlist
 
 def main():
     """Handle the argument list"""
