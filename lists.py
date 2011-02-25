@@ -23,7 +23,7 @@ def makelists(n):
     for i in range(1000):
         newlist = []
         for j in range(int(n)):
-            newlist.append(random.randint(0,int(n)))
+            newlist.append(random.randint(1,1000000))
         lists.append(newlist)
 
     i = 1
