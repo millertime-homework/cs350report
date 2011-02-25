@@ -19,19 +19,13 @@ def main():
 def makelists(n):
     """Create a directory called dirname and generate n-sized lists in it"""
     Popen("mkdir size" + str(n), shell=True, stdout=PIPE)
-    lists = []
-    for i in range(1000):
+    for i in range(1,1001):
         newlist = []
         for j in range(int(n)):
             newlist.append(random.randint(1,1000000))
-        lists.append(newlist)
-
-    i = 1
-    for l in lists:
         f = open("size" + n + "/list" + str(i), 'w')
-        f.write("\n".join(map(str, (l))))
+        f.write("\n".join(map(str, (newlist))))
         f.close()
-        i += 1
 
 if __name__=="__main__":
     main()
