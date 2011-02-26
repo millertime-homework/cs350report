@@ -5,3 +5,6 @@ compile:
 
 run:
 	java -ea AllSorts
+
+clean:
+	rm AllSorts.class

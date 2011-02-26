@@ -32,9 +32,10 @@ public class AllSorts
     }
 
     private int array_size;
-    private int [] qs_array;
-    private int [] bs_array;
-    private int [] is_array;
+    private int [] qs_array;     // Array quickSort will be sorting
+    private int [] bs_array;     // Array bubbleSort will be sorting
+    private int [] is_array;     // insertionSort
+    private ArrayList<Integer> ms_list;     // mergeSort
     private String filename;
 
     public AllSorts(int s, String fn) 
@@ -44,6 +45,7 @@ public class AllSorts
 	qs_array = new int[s];
 	bs_array = new int[s];
 	is_array = new int[s];
+	ms_list = new ArrayList<Integer>();
 	LoadArrays();
 	// Make a copy of the original list..
 	int [] test_arr = new int[s];
@@ -51,10 +53,12 @@ public class AllSorts
 	for(i = 0; i < s; i++) {
 	    test_arr[i] = qs_array[i];
 	}
-	// Sort the main copy of the original list using quickSort,bubbleSort
-	quickSort(0,s - 1);
-	bubbleSort();
-	insertionSort();
+	// Sort the main copy of the original list using each sort method
+	//quickSort(0,s - 1);
+	//bubbleSort();
+	//insertionSort();
+	ArrayList<Integer> mergesorted_list;
+	mergesorted_list = mergeSort(ms_list);
 	// Sort the test copy using Java's built-in sort.
 	Arrays.sort(test_arr);
 	// Check that they're the same.
@@ -62,6 +66,7 @@ public class AllSorts
 	    assert (qs_array[i] == test_arr[i]);
 	    assert (bs_array[i] == test_arr[i]);
 	    assert (is_array[i] == test_arr[i]);
+	    //assert (mergesorted_list.get(i) == test_arr[i]);
 	}
     }
 
@@ -77,6 +82,11 @@ public class AllSorts
 		qs_array[i] = Integer.parseInt(line);
 		bs_array[i] = Integer.parseInt(line);
 		is_array[i] = Integer.parseInt(line);
+		try {
+		    ms_list.add(Integer.parseInt(line));
+		} catch (Exception e) {
+		    System.out.println(e.getMessage());
+		}
 		++i;
 	    }
 	    in.close();
@@ -164,4 +174,76 @@ public class AllSorts
 	    is_array[i+1] = key;
 	}
     }
+
+    private ArrayList<Integer> merge(ArrayList<Integer> a, ArrayList<Integer> b)
+    {
+	int a_size = a.size();
+	int b_size = b.size();
+	ArrayList<Integer> result = new ArrayList<Integer>();
+	while ((a_size > 0) || (b_size > 0)) {
+	    if ((a_size > 0) && (b_size > 0)) {
+		if (a.get(0) <= b.get(0)) {
+		    try {
+			result.add(a.get(0));
+			a.remove(0);
+		    } catch (Exception e) {
+			System.out.println(e.getMessage());
+		    }
+		} else {
+		    try {
+			result.add(b.get(0));
+			b.remove(0);
+		    } catch (Exception e) {
+			System.out.println(e.getMessage());
+		    }
+		}
+	    } else if (a_size > 0) {
+		try {
+		    result.add(a.get(0));
+		    a.remove(0);
+		} catch (Exception e) {
+		    System.out.println(e.getMessage());
+		}
+	    } else if (b_size > 0) {
+		try {
+		    result.add(b.get(0));
+		    b.remove(0);
+		} catch (Exception e) {
+		    System.out.println(e.getMessage());
+		}
+	    }
+	}
+	return result;
+    }
+
+    public ArrayList<Integer> mergeSort(ArrayList<Integer> list)
+    {
+	int n = list.size();
+	if (n <= 1) {
+	    return list;
+	}
+	int middle = n / 2;
+	ArrayList<Integer> left = new ArrayList<Integer>();
+	ArrayList<Integer> right = new ArrayList<Integer>();
+	ArrayList<Integer> result = new ArrayList<Integer>();
+	int i;
+	for(i = 0; i < middle; i++) {
+	    try {
+		left.add(list.get(i));
+	    } catch (Exception e) {
+		System.out.println(e.getMessage());
+	    }
+	}
+	for(i = middle; i < n; i++) {
+	    try {
+		right.add(list.get(i));
+	    } catch (Exception e) {
+		System.out.println(e.getMessage());
+	    }
+	}
+	left = mergeSort(left);
+	right = mergeSort(right);
+	result = merge(left,right);
+	return result;
+    }    
 }
