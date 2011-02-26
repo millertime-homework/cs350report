@@ -19,7 +19,7 @@ void bubbleSort(int array[]);
 void insertionSort(int arr[], int length);
 
 // Get unsorted lists of integers
-void getList(int array[], int userNum);
+void getList(int array[], int userNumI, char userNum[]);
 
 // Print array contents
 void printList(int array[]);
@@ -31,10 +31,14 @@ main(int argc, char** argv)
         printf("Nope! Like this: ./allSort n\n");
         return 0;
     }
+	ofstream outFile;
+  	outFile.open ("output.txt");
+  	outFile << "BubbleSort, QuickSort, InsertionSort, MergeSort\n";
+  	outFile.close();
 
     int userNum = atoi(&argv[1][0]);
     int array[userNum + 1]; // creates array to hold names
-    getList(array, userNum);
+    getList(array, userNum, &argv[1][0]);
 
     /*
        cout << "unsorted list:\n{";
@@ -59,7 +63,7 @@ main(int argc, char** argv)
     //cout << "t1: " << t1.tv_usec << ", t2: " << t2.tv_usec << endl;
     cout << "bubbleSort execution time on n = "<< userNum << ": " << t2.tv_usec - t1.tv_usec << endl;
 
-    getList(array, userNum);
+    //getList(array, userNum);
 
     /*
        cout << "unsorted list:\n{";
@@ -81,7 +85,7 @@ main(int argc, char** argv)
      */
     cout << "quickSort execution time on n = "<< userNum << ": " << t2.tv_usec - t1.tv_usec << endl;
 
-    getList(array, userNum);
+    //getList(array, userNum);
 
 	/*
 	cout << "unSorted list:\n{";
@@ -150,14 +154,20 @@ void quickSort(int a[], int p, int r) {
     }
 }
 
-void getList(int array[], int userNum)
+void getList(int array[], int userNumI, char userNum[])
 {
     int n = 0;
 
-    ifstream myfile ("../../size1000/list998"); //opening the file.
+	char pathName[20]; 
+	strcpy (pathName, "../../size");
+	strcat(pathName, userNum);
+	strcat(pathName, "/");
+	strcat(pathName, "list998");
+	//char fileName[] = 	
+    ifstream myfile (pathName); //opening the file.
     if(myfile.is_open()) //if the file is open
     {   
-        while (!myfile.eof() && (n < userNum)) //while the end of file is NOT reached
+        while (!myfile.eof() && (n < userNumI)) //while the end of file is NOT reached
         {   
             myfile >> array[n];
             n++;
