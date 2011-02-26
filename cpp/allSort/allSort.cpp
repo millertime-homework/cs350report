@@ -179,7 +179,7 @@ void getList(int array[], int sizeInt, char sizeChar[], int listNum)
 
     }   
     else {
-      cout << "Unable to open file"; //if the file is not open output
+      cerr << "Unable to open file\n"; //if the file is not open output
       exit(0);
     }
 }
