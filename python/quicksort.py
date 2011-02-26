@@ -7,6 +7,7 @@
 # QuickSort - implemented in Python
 
 import sys
+from sort_utils import getlist
 
 def main():
     """Handle the argument list"""
@@ -15,14 +16,6 @@ def main():
     l = getlist(sys.argv[1])
     sl = quicksort(l)
     print(sl)
-
-def getlist(filename):
-    """Open and read file, massage string into list"""
-    f = open(filename)
-    s = f.read()
-    f.close()
-    l = map(int, s.split("\n"))
-    return l
 
 def quicksort(the_list):
     """QuickSort algorithm"""
