@@ -4,3 +4,4 @@
 *.synctex.gz
 size*
 *.pyc
+*.class
