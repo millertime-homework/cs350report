@@ -34,6 +34,7 @@ public class AllSorts
     private int array_size;
     private int [] qs_array;
     private int [] bs_array;
+    private int [] is_array;
     private String filename;
 
     public AllSorts(int s, String fn) 
@@ -42,6 +43,7 @@ public class AllSorts
 	filename = new String(fn);
 	qs_array = new int[s];
 	bs_array = new int[s];
+	is_array = new int[s];
 	LoadArrays();
 	// Make a copy of the original list..
 	int [] test_arr = new int[s];
@@ -52,12 +54,14 @@ public class AllSorts
 	// Sort the main copy of the original list using quickSort,bubbleSort
 	quickSort(0,s - 1);
 	bubbleSort();
+	insertionSort();
 	// Sort the test copy using Java's built-in sort.
 	Arrays.sort(test_arr);
 	// Check that they're the same.
 	for(i = 0; i < s; i++) {
 	    assert (qs_array[i] == test_arr[i]);
 	    assert (bs_array[i] == test_arr[i]);
+	    assert (is_array[i] == test_arr[i]);
 	}
     }
 
@@ -72,6 +76,7 @@ public class AllSorts
 	    while ((line = br.readLine()) != null) {
 		qs_array[i] = Integer.parseInt(line);
 		bs_array[i] = Integer.parseInt(line);
+		is_array[i] = Integer.parseInt(line);
 		++i;
 	    }
 	    in.close();
@@ -144,5 +149,19 @@ public class AllSorts
 	    }
 	    n = newn;
 	} while (n > 1);
+    }
+
+    public void insertionSort()
+    {
+	int j;
+	for(j = 1; j < array_size; j++) {
+	    int key = is_array[j];
+	    int i = j - 1;
+	    while ((i >= 0) && (is_array[i] > key)) {
+		is_array[i+1] = is_array[i];
+		--i;
+	    }
+	    is_array[i+1] = key;
+	}
     }
 }
