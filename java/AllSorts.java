@@ -20,7 +20,7 @@ public class AllSorts
     {
 	String name = new String("");
 	int i;
-	for(i = 1; i < 1000; i++) {
+	for(i = 1; i < 1001; i++) {
 	    name = "../size10/list" + i;
 	    try {
 		new AllSorts(10, name);
@@ -54,9 +54,9 @@ public class AllSorts
 	    test_arr[i] = qs_array[i];
 	}
 	// Sort the main copy of the original list using each sort method
-	//quickSort(0,s - 1);
-	//bubbleSort();
-	//insertionSort();
+	quickSort(0,s - 1);
+	bubbleSort();
+	insertionSort();
 	ArrayList<Integer> mergesorted_list;
 	mergesorted_list = mergeSort(ms_list);
 	// Sort the test copy using Java's built-in sort.
@@ -66,7 +66,7 @@ public class AllSorts
 	    assert (qs_array[i] == test_arr[i]);
 	    assert (bs_array[i] == test_arr[i]);
 	    assert (is_array[i] == test_arr[i]);
-	    //assert (mergesorted_list.get(i) == test_arr[i]);
+	    assert (mergesorted_list.get(i) == test_arr[i]);
 	}
     }
 
@@ -82,11 +82,7 @@ public class AllSorts
 		qs_array[i] = Integer.parseInt(line);
 		bs_array[i] = Integer.parseInt(line);
 		is_array[i] = Integer.parseInt(line);
-		try {
-		    ms_list.add(Integer.parseInt(line));
-		} catch (Exception e) {
-		    System.out.println(e.getMessage());
-		}
+		ms_list.add(Integer.parseInt(line));
 		++i;
 	    }
 	    in.close();
@@ -177,40 +173,22 @@ public class AllSorts
 
     private ArrayList<Integer> merge(ArrayList<Integer> a, ArrayList<Integer> b)
     {
-	int a_size = a.size();
-	int b_size = b.size();
 	ArrayList<Integer> result = new ArrayList<Integer>();
-	while ((a_size > 0) || (b_size > 0)) {
-	    if ((a_size > 0) && (b_size > 0)) {
+	while ((a.size() > 0) || (b.size() > 0)) {
+	    if ((a.size() > 0) && (b.size() > 0)) {
 		if (a.get(0) <= b.get(0)) {
-		    try {
-			result.add(a.get(0));
-			a.remove(0);
-		    } catch (Exception e) {
-			System.out.println(e.getMessage());
-		    }
-		} else {
-		    try {
-			result.add(b.get(0));
-			b.remove(0);
-		    } catch (Exception e) {
-			System.out.println(e.getMessage());
-		    }
-		}
-	    } else if (a_size > 0) {
-		try {
 		    result.add(a.get(0));
 		    a.remove(0);
-		} catch (Exception e) {
-		    System.out.println(e.getMessage());
-		}
-	    } else if (b_size > 0) {
-		try {
+		} else {
 		    result.add(b.get(0));
 		    b.remove(0);
-		} catch (Exception e) {
-		    System.out.println(e.getMessage());
 		}
+	    } else if (a.size() > 0) {
+		result.add(a.get(0));
+		a.remove(0);
+	    } else if (b.size() > 0) {
+		result.add(b.get(0));
+		b.remove(0);
 	    }
 	}
 	return result;
@@ -228,18 +206,10 @@ public class AllSorts
 	ArrayList<Integer> result = new ArrayList<Integer>();
 	int i;
 	for(i = 0; i < middle; i++) {
-	    try {
-		left.add(list.get(i));
-	    } catch (Exception e) {
-		System.out.println(e.getMessage());
-	    }
+	    left.add(list.get(i));
 	}
 	for(i = middle; i < n; i++) {
-	    try {
-		right.add(list.get(i));
-	    } catch (Exception e) {
-		System.out.println(e.getMessage());
-	    }
+	    right.add(list.get(i));
 	}
 	left = mergeSort(left);
 	right = mergeSort(right);
