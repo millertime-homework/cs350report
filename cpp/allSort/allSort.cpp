@@ -24,7 +24,7 @@ void getList(int array[], int sizeInt, char sizeChar[], int listNum);
 // Print array contents
 void printList(int array[]);
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	int sizes[6] = {10,50,100,500,1000,5000}; // the sizes of lists
 	int sizeInt = sizes[4]; 
@@ -178,7 +178,10 @@ void getList(int array[], int sizeInt, char sizeChar[], int listNum)
         myfile.close(); //closing the file
 
     }   
-    else cout << "Unable to open file"; //if the file is not open output
+    else {
+      cout << "Unable to open file"; //if the file is not open output
+      exit(0);
+    }
 }
 
 void printList(int array[])
