@@ -22,18 +22,21 @@ public class AllSorts
 	int i;
 	for(i = 1; i < 1000; i++) {
 	    name = "../size10/list" + i;
-	    new AllSorts(name);
+	    new AllSorts(10, name);
 	}
     }
 
-    private ArrayList<String> current_list;
+    private int array_size;
+    private int [] array;
     private String filename;
 
-    public AllSorts(String fn) 
+    public AllSorts(int s, String fn) 
     {
+	array_size = s;
 	filename = new String(fn);
-	current_list = new ArrayList<String>();
+	array = new int[s];
 	LoadArray();
+	quickSort(0,s - 1);
     }
 
     public void LoadArray()
@@ -43,8 +46,9 @@ public class AllSorts
 	    DataInputStream in = new DataInputStream(fstream);
 	    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 	    String line;
+	    int i = -1;
 	    while ((line = br.readLine()) != null) {
-		current_list.add(line);
+		array[++i] = Integer.parseInt(line);
 	    }
 	    in.close();
 	} catch (Exception e) {
@@ -55,9 +59,43 @@ public class AllSorts
     public void printArray()
     {
 	int i;
-	int l = current_list.size();
-	for(i = 0; i < l; i++) {
-	    System.out.println(current_list.get(i));
+	for(i = 0; i < array_size; i++) {
+	    System.out.println(array[i]);
+	}
+    }
+
+    private void swap(int a, int b)
+    {
+	int tmp = array[a];
+	array[a] = array[b];
+	array[b] = tmp;
+    }
+
+    public void quickSort(int left, int right)
+    {
+	int pivot;
+	int left_index = left;
+	int right_index = right;
+	if ((right - left) > 0) {
+	    pivot = (left + right) / 2;
+	    while ((left_index <= pivot) && (right_index >= pivot)) {
+		while ((array[left_index] < array[pivot]) && (left_index <= pivot)) {
+		    ++left_index;
+		}
+		while ((array[right_index] > array[pivot]) && (right_index >= pivot)) {
+		    --right_index;
+		}
+		swap(left_index, right_index);
+		++left_index;
+		--right_index;
+		if (left_index - 1 == pivot) {
+		    pivot = right_index = right_index + 1;
+		} else if (right_index + 1 == pivot) {
+		    pivot = left_index = left_index - 1;
+		}
+	    }
+	    quickSort(left, pivot - 1);
+	    quickSort(pivot + 1, right);
 	}
     }
 }
