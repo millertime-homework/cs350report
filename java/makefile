@@ -1,7 +1,7 @@
 all: compile run
 
 compile:
-	javac AllSorts.java -Xlint:unchecked
+	javac AllSorts.java
 
 run:
-	java AllSorts
+	java -ea AllSorts
