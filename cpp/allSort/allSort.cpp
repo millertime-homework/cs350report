@@ -20,21 +20,24 @@ void bubbleSort(int array[]);
 void insertionSort(int arr[], int length);
 
 // Get unsorted lists of integers
-void getList(int array[], int sizeInt,  int listNum);
+void getList(int array[], int listSize,  int listNum);
 
 // Print array contents
 void printList(int array[]);
 
-// Check to see that array is sorted
-bool isSorted(int a[], int size)
+// Check to see that array is sorted 0..n
+bool isSorted(int a[], int size);
+
+// Check to see that array is sorted n..0
+bool isSortedR(int a[], int size);
 
 int main(int argc, char** argv)
 {
     int sizes[11] = {10,50,100,500,1000,5000, 10000, 50000, 100000, 500000, 1000000}; // the sizes of lists
-    int sizeInt = sizes[6];
+    int listSize = sizes[4];
 
     // THIS WON'T WORK:
-    int array[sizeInt + 1]; // creates array to hold names
+    int array[listSize + 1]; // creates array to hold names
 
     int listNum = 1; // 1-1000
     ofstream outFile;
@@ -46,24 +49,27 @@ int main(int argc, char** argv)
 
     while (listNum <= 100)
     {
-       getList(array, sizeInt, listNum);
-       cout << "unsorted list:\n{";
-       printList(array);
-       cout << "}\n";
+        getList(array, listSize, listNum);
+        cout << "unsorted list:\n{";
+        printList(array);
+        cout << "}\n";
 
-       // Bubble Sort
-       gettimeofday(&t1, NULL);
-       bubbleSort(array);
-       gettimeofday(&t2, NULL);
+        // Bubble Sort
+        gettimeofday(&t1, NULL);
+        bubbleSort(array);
+        gettimeofday(&t2, NULL);
 
-       cout << "bubbleSorted list:\n{";
-       printList(array);
-       cout << "}\n";
+        // make sure list is sorted 
+        assert(isSorted(array, listSize));
 
-        //cout << "t1: " << t1.tv_usec << ", t2: " << t2.tv_usec << endl;
-//    cout << "bubbleSort execution time on n = "<< sizeInt << ": " << t2.tv_usec - t1.tv_usec << endl;
-        outFile << sizeInt << "," << t2.tv_usec - t1.tv_usec << ",";
-        getList(array, sizeInt, listNum);
+        //cout << "bubbleSorted list:\n{";
+        //printList(array);
+        //cout << "}\n";
+
+        //    cout << "t1: " << t1.tv_usec << ", t2: " << t2.tv_usec << endl;
+        //    cout << "bubbleSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
+        outFile << listSize << "," << t2.tv_usec - t1.tv_usec << ",";
+        getList(array, listSize, listNum);
     /*
      cout << "unsorted list:\n{";
     printList(array);
@@ -72,20 +78,19 @@ int main(int argc, char** argv)
 
     // Quick Sort    
         gettimeofday(&t1, NULL);
-        quickSort(array, 0, sizeInt);
+        quickSort(array, 0, listSize);
         gettimeofday(&t2, NULL);
+        assert(isSortedR(array, listSize));
 
-    /*
        cout << "quickSorted list:\n{";
        printList(array);
        cout << "}\n";
 
-       cout << "t1: " << t1 << ", t2: " << t2 << endl;
-     */
-//    cout << "quickSort execution time on n = "<< sizeInt << ": " << t2.tv_usec - t1.tv_usec << endl;
+   
+//    cout << "quickSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
         outFile << t2.tv_usec - t1.tv_usec << ",";
 
-        getList(array, sizeInt, listNum);
+        getList(array, listSize, listNum);
     /*
     cout << "unSorted list:\n{";
         printList(array);
@@ -93,8 +98,9 @@ int main(int argc, char** argv)
     */
 
         gettimeofday(&t1, NULL);
-        insertionSort(array, sizeInt);
+        insertionSort(array, listSize);
         gettimeofday(&t2, NULL);
+        assert(isSorted(array, listSize));
 
     /*
     cout << "insertionSorted list:\n{";
@@ -102,7 +108,7 @@ int main(int argc, char** argv)
     cout << "}\n";
     */
 
-//    cout << "insertionSort execution time on n = "<< sizeInt << ": " << t2.tv_usec - t1.tv_usec << endl;
+//    cout << "insertionSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
         outFile << t2.tv_usec - t1.tv_usec << "\n";
         ++listNum;
     }
@@ -156,7 +162,7 @@ void quickSort(int a[], int p, int r) {
     }
 }
 
-void getList(int array[], int sizeInt, int listNum)
+void getList(int array[], int listSize, int listNum)
 {
     int n = 0;
     char pathName[50];
@@ -164,7 +170,7 @@ void getList(int array[], int sizeInt, int listNum)
     char sizeChar[50];
 
     // "cast" int to chars 
-    sprintf (sizeChar, "%d", sizeInt);
+    sprintf (sizeChar, "%d", listSize);
     sprintf (listChar, "%d", listNum);
     
     // Create a pathname to the file where the unordered lists are stored.
@@ -224,6 +230,15 @@ bool isSorted(int a[], int size)
   int i;
   for(i = 0; i < (size-1); i++)
     if (a[i] > a[i+1])
+      return false;
+  return true;
+}
+
+bool isSortedR(int a[], int size)
+{
+  int i;
+  for(i = 0; i < (size-1); i++)
+    if (a[i] < a[i+1])
       return false;
   return true;
 }
