@@ -34,7 +34,7 @@ bool isSortedR(int a[], int size);
 int main(int argc, char** argv)
 {
     int sizes[11] = {10,50,100,500,1000,5000, 10000, 50000, 100000, 500000, 1000000}; // the sizes of lists
-    int listSize = sizes[4];
+    int listSize = sizes[8];
 
     // THIS WON'T WORK:
     int array[listSize + 1]; // creates array to hold names
@@ -50,9 +50,9 @@ int main(int argc, char** argv)
     while (listNum <= 100)
     {
         getList(array, listSize, listNum);
-        cout << "unsorted list:\n{";
-        printList(array);
-        cout << "}\n";
+        // cout << "unsorted list:";
+        // printList(array);
+        // cout << "}\n";
 
         // Bubble Sort
         gettimeofday(&t1, NULL);
@@ -82,9 +82,8 @@ int main(int argc, char** argv)
         gettimeofday(&t2, NULL);
         assert(isSortedR(array, listSize));
 
-       cout << "quickSorted list:\n{";
-       printList(array);
-       cout << "}\n";
+        cout << "quickSorted list:\n";
+        printList(array);
 
    
 //    cout << "quickSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
@@ -202,11 +201,13 @@ void getList(int array[], int listSize, int listNum)
 void printList(int array[])
 {
     int n = 0;
+    cout << "{";
     while (array[n] != '\0')
     {
         cout << array[n] << ", ";
         ++n;
     }
+    cout << "}\n";
 }
 
 void insertionSort(int arr[], int length)
