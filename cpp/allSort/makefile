@@ -1,5 +1,5 @@
-allSort: allSort.cpp
-	g++ -O2 -Wall allSort.cpp -o allSort
+test: main.cpp arrobj.cpp
+	g++ -O2 -Wall main.cpp arrobj.cpp -o test
 
 clean:
-	rm allSort
+	rm test

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <time.h>
 #include <sys/time.h>
 #include <assert.h>
@@ -31,14 +32,17 @@ bool isSorted(int a[], int size);
 // Check to see that array is sorted n..0
 bool isSortedR(int a[], int size);
 
+
+
+
 int main(int argc, char** argv)
 {
     int sizes[11] = {10,50,100,500,1000,5000, 10000, 50000, 100000, 500000, 1000000}; // the sizes of lists
-    int listSize = sizes[8];
-
+    
     // THIS WON'T WORK:
-    int array[listSize + 1]; // creates array to hold names
-
+    int ** array;
+    for (int i = 0; i < 11; i++)
+    {
     int listNum = 1; // 1-1000
     ofstream outFile;
     outFile.open ("output.csv");
@@ -59,7 +63,7 @@ int main(int argc, char** argv)
         bubbleSort(array);
         gettimeofday(&t2, NULL);
 
-        // make sure list is sorted 
+        // make sure list is sorted
         assert(isSorted(array, listSize));
 
         //cout << "bubbleSorted list:\n{";
@@ -68,7 +72,11 @@ int main(int argc, char** argv)
 
         //    cout << "t1: " << t1.tv_usec << ", t2: " << t2.tv_usec << endl;
         //    cout << "bubbleSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
-        outFile << listSize << "," << t2.tv_usec - t1.tv_usec << ",";
+        outFile << listSize
+                << ","
+                <<  (t2.tv_sec + (t2.tv_usec / 1000000)) -
+                    (t1.tv_sec +(t1.tv_usec / 1000000))
+                << ",";
         getList(array, listSize, listNum);
     /*
      cout << "unsorted list:\n{";
@@ -76,7 +84,7 @@ int main(int argc, char** argv)
      cout << "}\n";
      */
 
-    // Quick Sort    
+    // Quick Sort
         gettimeofday(&t1, NULL);
         quickSort(array, 0, listSize);
         gettimeofday(&t2, NULL);
@@ -84,8 +92,10 @@ int main(int argc, char** argv)
 
         cout << "quickSorted list:\n";
         printList(array);
+        cout    << "t2.tv_usec: " << t2.tv_usec << endl << "t2.tv_sec: "
+                << t2.tv_sec << endl;
 
-   
+
 //    cout << "quickSort execution time on n = "<< listSize << ": " << t2.tv_usec - t1.tv_usec << endl;
         outFile << t2.tv_usec - t1.tv_usec << ",";
 
@@ -163,26 +173,21 @@ void quickSort(int a[], int p, int r) {
 
 void getList(int array[], int listSize, int listNum)
 {
-    int n = 0;
-    char pathName[50];
-    char listChar[50];
-    char sizeChar[50];
+    stringstream ss;
+    ss << listSize;
+    string strSize = ss.str();
+    ss.str("");
+    ss << listNum;
+    string strNum = ss.str();
+    ss.str("");
 
-    // "cast" int to chars 
-    sprintf (sizeChar, "%d", listSize);
-    sprintf (listChar, "%d", listNum);
-    
-    // Create a pathname to the file where the unordered lists are stored.
-    // sizeChar is how many ints are in the file, listChar is which file (1-100)
-    strcpy(pathName, "../../lists/size");
-    strcat(pathName, sizeChar);
-    strcat(pathName, "/");
-    strcat(pathName, "list");
-    strcat(pathName, listChar);
+    string filename = "../../lists/size" + strSize + "/list" + strNum;
 
-    ifstream myfile (pathName); //opening the file.
+
+    ifstream myfile (filename); //opening the file.
     if(myfile.is_open()) //if the file is open
     {
+        int n = 0;
         while (!myfile.eof()) //while the end of file is NOT reached
         {
             myfile >> array[n];
