@@ -17,7 +17,18 @@ def main():
     sl = quicksort(l)
     print(sl)
 
-def quicksort(the_list):
+def tail_rec(fun):
+    """Tail recursion implementation found at
+    http://paulbutler.org/archives/tail-recursion-in-python/
+    and spotted by Tony Wooster -- many thanks sir"""
+    def tail(fun):
+        a = fun
+        while callable(a):
+            a = a()
+        return a
+    return (lambda x: tail(fun(x)))
+
+def tail_quicksort(the_list):
     """QuickSort algorithm"""
     if len(the_list) <= 1:
         return the_list
@@ -30,6 +41,8 @@ def quicksort(the_list):
         else:
             larger.append(item)
     return (quicksort(smaller) + [pivot] + quicksort(larger))
+
+quicksort = tail_rec(tail_quicksort)
 
 if __name__=="__main__":
     main()
