@@ -15,9 +15,6 @@ from quicksort import *
 
 def main():
     """Start timer, sort, stop timer. write result to file"""
-    # fix recursion limit.. so quicksort can complete..
-    sys.setrecursionlimit(1000000)
-
     sizes = [10,50,100,500,1000,5000,10000,50000,100000,500000,1000000]
     b_times = []
     i_times = []
