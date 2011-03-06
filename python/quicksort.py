@@ -7,7 +7,7 @@
 # QuickSort - implemented in Python
 
 import sys
-from sort_utils import getlist
+from sort_utils import getlist,tail_rec
 
 def main():
     """Handle the argument list"""
@@ -16,17 +16,6 @@ def main():
     l = getlist(sys.argv[1])
     sl = quicksort(l)
     print(sl)
-
-def tail_rec(fun):
-    """Tail recursion implementation found at
-    http://paulbutler.org/archives/tail-recursion-in-python/
-    and spotted by Tony Wooster -- many thanks sir"""
-    def tail(fun):
-        a = fun
-        while callable(a):
-            a = a()
-        return a
-    return (lambda x: tail(fun(x)))
 
 def tail_quicksort(the_list):
     """QuickSort algorithm"""

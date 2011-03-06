@@ -15,12 +15,12 @@ from quicksort import *
 
 def main():
     """Start timer, sort, stop timer. write result to file"""
-    sizes = [10,50,100,500,1000,5000,10000,50000,100000,500000,1000000]
+    #sizes = [10,50,100,500,1000,5000,10000,50000,100000,500000,1000000]
     b_times = []
     i_times = []
     m_times = []
     q_times = []
-    size = 10
+    size = 50000
 #for size in sizes:
     for num in range(1,101):
         l = getlist("../lists/size" + str(size) + "/list" + str(num))
@@ -42,7 +42,7 @@ def main():
         csv += str(b_times[i][0]) + ',' + str(b_times[i][1]) + ','
         csv += str(i_times[i][1]) + ',' + str(m_times[i][1]) + ','
         csv += str(m_times[i][1]) + '\n'
-    f = open("python.csv", 'w')
+    f = open("size50000-python.csv", 'w')
     f.write(csv)
     f.close()
 

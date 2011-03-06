@@ -13,3 +13,14 @@ def getlist(filename):
     f.close()
     l = map(int, s.split("\n"))
     return l
+
+def tail_rec(fun):
+    """Tail recursion implementation found at
+    http://paulbutler.org/archives/tail-recursion-in-python/
+    and spotted by Tony Wooster -- many thanks sir"""
+    def tail(fun):
+        a = fun
+        while callable(a):
+            a = a()
+        return a
+    return (lambda x: tail(fun(x)))
