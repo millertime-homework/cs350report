@@ -1,0 +1,35 @@
+%%% This needs to be actually written in Latex. Just throwing in some comments for now.
+
+
+Issues with Python:
+
+So one of the road blocks while getting these sorts implemented and our tests run, and our
+data gathered, was with Python's limitations. Mainly I speak of the way Python handles
+recursion. The very first hurdle discovered was that Python has a recursion depth limit
+of 1000. This "prevents infinite recursion from causing an overflow of the C stack and 
+crashing Python." (http://docs.python.org/library/sys.html)
+
+This hurdle can be overcome by setting the limit manually, but as the warning states
+Python can crash. By setting the number to one million, I was able to run the Python sort
+which was doing the recursion. However, the next road block was a Segmentation Fault.
+This lead me to believe that the implementation was not correct for Python. I began to
+talk to peers and search the internet, and found a site where someone had implemented
+a tail-recursion function. Apparently, Python does not normally do tail recursion.
+It was difficult to follow the example on the site, though. The algorithm I was
+implementing was concatenating a list with the return value of the recursive call,
+and Python thought I wanted to concatenate a list with a function.
+
+After spending more time speaking with peers on the subject and researching more,
+I decided to pull the plug on Python, for doing recursive sorting algorithms. I am
+researching things people have done to work around this, including Stackless Python
+and C Python. A very interesting point, is that Stackless Python acknowledges on
+their site that when you implement these workarounds you are implementing a Python
+paradigm shift. To change the paradigm of the language within a program is rather
+significant. However, for this project and the time frame we have been given, the
+goal is not to turn this into a Golden Hammer. Python is not the correct tool for
+doing a recursive sort of a list, so the focus will instead be on the correct tools.
+
+Appendix: Stackless Python
+Stackless Python is an implementation of Python that decouples the C stack and thus
+skirts the recursion issues of Python. There is an excellent paper posted on their
+website here: http://www.stackless.com/spcpaper.htm
