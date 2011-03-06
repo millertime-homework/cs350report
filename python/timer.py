@@ -6,7 +6,7 @@
 # timer.py
 # Run each sort and time them
 
-import time
+import time,sys
 from sort_utils import *
 from bubblesort import *
 from insertionsort import *
@@ -15,32 +15,38 @@ from quicksort import *
 
 def main():
     """Start timer, sort, stop timer. write result to file"""
-    for i in range(1,1001):
-        l = getlist("../size10/list" + str(i))
-        start = time.time()
-        bubblesort(l)
-        bubble_time = time.time() - start
-        start = time.time()
-        insertionsort(l)
-        insertion_time = time.time() - start
-        start = time.time()
-        mergesort(l)
-        merge_time = time.time() - start
-        start = time.time()
-        quicksort(l)
-        quick_time = time.time() - start
-        f = open("bubble10", 'a')
-        f.write(str(bubble_time) + '\n')
-        f.close()
-        f = open("insertion10", 'a')
-        f.write(str(insertion_time) + '\n')
-        f.close()
-        f = open("merge10", 'a')
-        f.write(str(merge_time) + '\n')
-        f.close()
-        f = open("quick10", 'a')
-        f.write(str(quick_time) + '\n')
-        f.close()
+    # fix recursion limit.. so quicksort can complete..
+    sys.setrecursionlimit(1000000)
+
+    sizes = [10,50,100,500,1000,5000,10000,50000,100000,500000,1000000]
+    b_times = []
+    i_times = []
+    m_times = []
+    q_times = []
+    for size in sizes:
+        for num in range(1,5):
+            l = getlist("../lists/size" + str(size) + "/list" + str(num))
+            start = time.time()
+            bubblesort(l)
+            b_times.append((size,time.time() - start))
+            start = time.time()
+            insertionsort(l)
+            i_times.append((size,time.time() - start))
+            start = time.time()
+            mergesort(l)
+            m_times.append((size,time.time() - start))
+            start = time.time()
+            quicksort(l)
+            q_times.append((size,time.time() - start))
+    csv = "n,bubble,insertion,merge,quick\n"
+    for size in sizes:
+        for i in range(100):
+            csv += str(b_times[i][0]) + str(b_times[i][1])
+            csv += str(i_times[i][1]) + str(m_times[i][1])
+            csv += str(m_times[i][1]) + '\n'
+    f = open("python.csv", 'w')
+    f.write(csv)
+    f.close()
 
 if __name__=="__main__":
     main()
