@@ -52,6 +52,12 @@ int main()
             toFile += ss.str() + ",";
             ss.str("");
 
+	    time(&t1);
+	    my_arrays.merge_sort(0, sizes[j]);
+	    time(&t2);
+	    ss << t2 - t1;
+	    toFile += ss.str();
+
             toFile += ss.str() + "\n";
         }
     }
