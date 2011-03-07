@@ -40,7 +40,7 @@ public class AllSorts
 		name = "../lists/size" + sizes[i] + "/list" + j;
 		try {
 		    mysorts = new AllSorts(sizes[i], name);
-		    times += mysorts.getTimes() + "\n";
+		    times += sizes[i] + "," + mysorts.getTimes() + "\n";
 		} catch (Exception e) {
 		    System.out.println("herp in the constructor derp");
 		}
