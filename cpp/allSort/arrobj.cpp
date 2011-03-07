@@ -25,10 +25,8 @@ void arrObj::bubbleSort()
     int swap;
     do{
         swap = 0;
-        for (int n = 1; n < arrSize; n++)
-        {
-            if (arrBubble[n-1] > arrBubble[n])
-            {
+        for (int n = 1; n < arrSize; n++) {
+            if (arrBubble[n-1] > arrBubble[n]) {
                 swap = 1;
                 int temp = arrBubble[n-1];
                 arrBubble[n-1] = arrBubble[n];
@@ -43,7 +41,6 @@ int arrObj::partition(int p, int r) {
     int x = arrQuick[r];
     int j = p - 1;
     for (int i = p; i < r; i++) {
-
         if (x <= arrQuick[i]) {
             j = j + 1;
             int temp = arrQuick[j];
@@ -53,7 +50,6 @@ int arrObj::partition(int p, int r) {
     }
     arrQuick[r] = arrQuick[j + 1];
     arrQuick[j + 1] = x;
-
     return (j + 1);
 }
 
@@ -100,20 +96,18 @@ void arrObj::printList(int *array)
 {
     cout << arrSize << endl;
     cout << "{";
-    for (int n = 0; n < arrSize; n++)
-    {
+    for (int n = 0; n < arrSize; n++) {
         cout << array[n] << ", ";
     }
     cout << "}\n";
 }
+
 void arrObj::insertionSort()
 {
     int i, j, tmp;
-    for (i = 1; i < arrSize; i++)
-    {
+    for (i = 1; i < arrSize; i++) {
         j = i;
-        while (j > 0 && arrInsertion[j - 1] > arrInsertion[j])
-        {
+        while (j > 0 && arrInsertion[j - 1] > arrInsertion[j]) {
             tmp = arrInsertion[j];
             arrInsertion[j] = arrInsertion[j - 1];
             arrInsertion[j - 1] = tmp;
@@ -123,6 +117,50 @@ void arrObj::insertionSort()
     //assert(isSorted(arrInsertion));
 }
 
+void arrObj::merge_sort(int low,int high)
+{
+    int mid;
+    if(low<high) {
+        mid=(low+high)/2;
+	merge_sort(low,mid);
+	merge_sort(mid+1,high);
+	merge(low,mid,high);
+    }
+}
+
+void merge(int low,int mid,int high)
+{
+    int h,i,j,b[50],k;
+    h=low;
+    i=low;
+    j=mid+1;
+
+    while((h<=mid)&&(j<=high)) {
+        if(a[h]<=a[j]) {
+	    b[i]=a[h];
+	    h++;
+	} else {
+	    b[i]=a[j];
+	    j++;
+	}
+	i++;
+    }
+    if(h>mid) {
+        for(k=j;k<=high;k++) {
+	    b[i]=a[k];
+	    i++;
+	}
+    } else {
+        for(k=h;k<=mid;k++) {
+	    b[i]=a[k];
+	    i++;
+	}
+    }
+    for(k=low;k<=high;k++) 
+        a[k]=b[k];
+}
+
+
 bool arrObj::isSorted(int *a)
 {
   int i;
@@ -131,14 +169,3 @@ bool arrObj::isSorted(int *a)
       return false;
   return true;
 }
-/*
-bool isSortedR(int a[], int size)
-{
-  int i;
-  for(i = 0; i < (size-1); i++)
-    if (a[i] < a[i+1])
-      return false;
-  return true;
-}
-
-*/
