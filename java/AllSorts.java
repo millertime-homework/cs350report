@@ -9,6 +9,7 @@
 
 import java.util.*;
 import java.io.*;
+import java.lang.RuntimeException;
 
 public class AllSorts
 {
@@ -18,16 +19,41 @@ public class AllSorts
      */
     public static void main(String [] args)
     {
-	String name = new String("");
-	int i;
-	for(i = 1; i < 1001; i++) {
-	    name = "../size10/list" + i;
-	    try {
-		new AllSorts(10, name);
-	    } catch (Exception e) {
-		System.out.println(e.getMessage());
-	    }
+	PrintWriter writer;
+	String csvfile = "java.csv";
+	try {
+	    writer = new PrintWriter(new BufferedWriter(new FileWriter(csvfile, false)));
+	} catch (IOException e) {
+	    throw new RuntimeException(e);
 	}
+	writer.print("");
+	writer.close();
+	AllSorts mysorts;
+	String name = new String("");      // the file that will be opened
+	int [] sizes = {10,50,100,500,1000,5000,10000,50000,100000,500000,1000000};
+	int i;
+	int j;
+	String results = new String("n,quick,bubble,insertion,merge\n");
+	for(i = 0; i < 11; i++) {
+	    String times = new String("");
+	    for(j = 1; j < 101; j++) {
+		name = "../lists/size" + sizes[i] + "/list" + j;
+		try {
+		    mysorts = new AllSorts(sizes[i], name);
+		    times += mysorts.getTimes() + "\n";
+		} catch (Exception e) {
+		    System.out.println("herp in the constructor derp");
+		}
+	    }
+	    results += times;
+	}
+	try {
+	    writer = new PrintWriter(new BufferedWriter(new FileWriter(csvfile, true)));
+	} catch (IOException e) {
+	    throw new RuntimeException(e);
+	}
+	writer.append(results);
+	writer.close();
 	System.out.println("Done.");
     }
 
@@ -37,9 +63,13 @@ public class AllSorts
     private int [] is_array;     // insertionSort
     private ArrayList<Integer> ms_list;     // mergeSort
     private String filename;
+    private float [] elapsed_time;
+    private int which_time;
 
     public AllSorts(int s, String fn) 
     {
+	which_time = 0;
+	elapsed_time = new float[4];
 	array_size = s;
 	filename = new String(fn);
 	qs_array = new int[s];
@@ -53,12 +83,23 @@ public class AllSorts
 	for(i = 0; i < s; i++) {
 	    test_arr[i] = qs_array[i];
 	}
-	// Sort the main copy of the original list using each sort method
+	long start = System.currentTimeMillis();
 	quickSort(0,s - 1);
+	long elapsed = System.currentTimeMillis()-start;
+	elapsed_time[which_time++] = elapsed/1000F;
+	start = System.currentTimeMillis();
 	bubbleSort();
+	elapsed = System.currentTimeMillis()-start;
+	elapsed_time[which_time++] = elapsed/1000F;
+	start = System.currentTimeMillis();
 	insertionSort();
+	elapsed = System.currentTimeMillis()-start;
+	elapsed_time[which_time++] = elapsed/1000F;
+	start = System.currentTimeMillis();
 	ArrayList<Integer> mergesorted_list;
 	mergesorted_list = mergeSort(ms_list);
+	elapsed = System.currentTimeMillis()-start;
+	elapsed_time[which_time++] = elapsed/1000F;
 	// Sort the test copy using Java's built-in sort.
 	Arrays.sort(test_arr);
 	// Check that they're the same.
@@ -216,4 +257,15 @@ public class AllSorts
 	result = merge(left,right);
 	return result;
     }    
+
+    public String getTimes()
+    {
+	String result = new String("");
+	int i;
+	for(i = 0; i < 3; i++) {
+	    result += elapsed_time[i] + ",";
+	}
+	result += elapsed_time[3];
+	return result;
+    }
 }
