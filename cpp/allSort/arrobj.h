@@ -6,12 +6,18 @@ class arrObj
 public:
     arrObj(int);
     ~arrObj();
-    void quickSort();
+    void getList(int);
+    void quickSort(int, int);
+    int partition(int, int);
     void insertionSort();
     void bubbleSort();
+    void printList(int *);
+    bool isSorted(int *);
 
 private:
-    int *array;
+    int *arrBubble;
+    int *arrQuick;
+    int *arrInsertion;
     int arrSize;
 };
 #endif

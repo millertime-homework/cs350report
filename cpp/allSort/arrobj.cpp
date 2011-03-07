@@ -1,13 +1,23 @@
 #include "arrobj.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <assert.h>
+using namespace std;
 
 arrObj::arrObj(int s): arrSize(s)
 {
-    array = new int[arrSize];
+    arrBubble = new int[arrSize];
+    arrQuick = new int[arrSize];
+    arrInsertion = new int[arrSize];
 }
 
 arrObj::~arrObj()
 {
-    delete [] array;
+    delete [] arrBubble;
+    delete [] arrQuick;
+    delete [] arrInsertion;
 }
 
 void arrObj::bubbleSort()
@@ -15,50 +25,50 @@ void arrObj::bubbleSort()
     int swap;
     do{
         swap = 0;
-        int n = 1;
         for (int n = 1; n < arrSize; n++)
         {
-            if (array[n-1] > array[n])
+            if (arrBubble[n-1] > arrBubble[n])
             {
                 swap = 1;
-                int temp = array[n-1];
-                array[n-1] = array[n];
-                array[n] = temp;
+                int temp = arrBubble[n-1];
+                arrBubble[n-1] = arrBubble[n];
+                arrBubble[n] = temp;
             }
         }
     }while(swap == 1);
+    //assert(isSorted(arrBubble));
+
 }
-/*
-int partition(int a[], int p, int r) {
-    int x = a[r];
+int arrObj::partition(int p, int r) {
+    int x = arrQuick[r];
     int j = p - 1;
     for (int i = p; i < r; i++) {
 
-        if (x <= a[i]) {
+        if (x <= arrQuick[i]) {
             j = j + 1;
-            int temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            int temp = arrQuick[j];
+            arrQuick[j] = arrQuick[i];
+            arrQuick[i] = temp;
         }
     }
-    a[r] = a[j + 1];
-    a[j + 1] = x;
+    arrQuick[r] = arrQuick[j + 1];
+    arrQuick[j + 1] = x;
 
     return (j + 1);
 }
 
-void quickSort(int a[], int p, int r) {
+void arrObj::quickSort(int p, int r) {
     if (p < r) {
-        int q = partition(a, p, r);
-        quickSort(a, p, q - 1);
-        quickSort(a, q + 1, r);
+        int q = partition(p, r);
+        quickSort(p, q - 1);
+        quickSort(q + 1, r);
     }
 }
 
-void getList(int array[], int listSize, int listNum)
+void arrObj::getList(int listNum)
 {
     stringstream ss;
-    ss << listSize;
+    ss << arrSize;
     string strSize = ss.str();
     ss.str("");
     ss << listNum;
@@ -67,19 +77,18 @@ void getList(int array[], int listSize, int listNum)
 
     string filename = "../../lists/size" + strSize + "/list" + strNum;
 
+    ifstream f(filename.c_str(), ifstream::in);
+    string line;
+    if (f) {
+        int i = 0;
+        while (getline(f, line) != 0) {
+        arrBubble[i] = atoi(line.c_str());
+        arrQuick[i] = atoi(line.c_str());
+        arrInsertion[i] = atoi(line.c_str());
 
-    ifstream myfile (filename); //opening the file.
-    if(myfile.is_open()) //if the file is open
-    {
-        int n = 0;
-        while (!myfile.eof()) //while the end of file is NOT reached
-        {
-            myfile >> array[n];
-            n++;
+        i++;
         }
-        array[n] = '\0';
-        myfile.close(); //closing the file
-
+    f.close();
     }
     else {
         cerr << "Unable to open file\n"; //if the file is not open output
@@ -87,43 +96,42 @@ void getList(int array[], int listSize, int listNum)
     }
 }
 
-void printList(int array[])
+void arrObj::printList(int *array)
 {
-    int n = 0;
+    cout << arrSize << endl;
     cout << "{";
-    while (array[n] != '\0')
+    for (int n = 0; n < arrSize; n++)
     {
         cout << array[n] << ", ";
-        ++n;
     }
     cout << "}\n";
 }
-
-void insertionSort(int arr[], int length)
+void arrObj::insertionSort()
 {
     int i, j, tmp;
-    for (i = 1; i < length; i++)
+    for (i = 1; i < arrSize; i++)
     {
         j = i;
-        while (j > 0 && arr[j - 1] > arr[j])
+        while (j > 0 && arrInsertion[j - 1] > arrInsertion[j])
         {
-            tmp = arr[j];
-            arr[j] = arr[j - 1];
-            arr[j - 1] = tmp;
+            tmp = arrInsertion[j];
+            arrInsertion[j] = arrInsertion[j - 1];
+            arrInsertion[j - 1] = tmp;
             j--;
         }
     }
+    //assert(isSorted(arrInsertion));
 }
 
-bool isSorted(int a[], int size)
+bool arrObj::isSorted(int *a)
 {
   int i;
-  for(i = 0; i < (size-1); i++)
+  for(i = 0; i < (arrSize-1); i++)
     if (a[i] > a[i+1])
       return false;
   return true;
 }
-
+/*
 bool isSortedR(int a[], int size)
 {
   int i;
