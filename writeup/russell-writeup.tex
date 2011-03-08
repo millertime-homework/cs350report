@@ -50,6 +50,17 @@ don't fully understand about Java. Well, to make the stopwatch work I ran it
 from inside the constructor. I even used class fields to store the resulting
 elapsed times, and sent them to main in a public method.
 
+The final struggle while working in Java, which carried over to implementing it
+in C++ as well, was the merge sort. Because the merge sort works with a set of
+lists whose sizes are constantly-changing, arrays would simply not do the trick.
+Rather, what I wanted to do was learn to use the Java List class. In attempting
+to do so, I also discovered the magic of the ArrayList class. Basically, it
+allows you to do list operations such as cons (Java calls it add), there is also
+a get function that allows you to refer to a specific index. Both of these
+operations came in handy. C++ has lists in its standard library, and though it
+did not have the get method, it was not difficult to make the translation from
+the Java code to the C++ code.
+
 Once I verified that all of the sorts were in fact sorting, adjusted the output
 that would be written to the CSV file, tested the stopwatch, and ran a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
