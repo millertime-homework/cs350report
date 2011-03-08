@@ -119,48 +119,14 @@ void arrObj::insertionSort()
     //assert(isSorted(arrInsertion));
 }
 
-void arrObj::merge_sort(int low,int high)
+void arrObj::merge_sort()
 {
-    int mid;
-    if(low < high) {
-        mid = (low + high) / 2;
-	merge_sort(low, mid);
-	merge_sort(mid + 1, high);
-	merge(low, mid, high);
-    }
+    assert(isSorted(arrMerge));
 }
 
-void arrObj::merge(int low,int mid,int high)
+void arrObj::merge()
 {
-    int h, i, j, k; 
-    int b[arrSize];
-    h = low;
-    i = low;
-    j = mid + 1;
 
-    while ((h <= mid) && (j <= high)) {
-        if(arrMerge[h] <= arrMerge[j]) {
-	    b[i] = arrMerge[h];
-	    h++;
-	} else {
-	    b[i] = arrMerge[j];
-	    j++;
-	}
-	i++;
-    }
-    if(h > mid) {
-        for(k = j; k <= high; k++) {
-	    b[i] = arrMerge[k];
-	    i++;
-	}
-    } else {
-        for(k = h; k <= mid; k++) {
-	    b[i] = arrMerge[k];
-	    i++;
-	}
-    }
-    for(k = low; k <= high; k++) 
-        arrMerge[k] = b[k];
 }
 
 

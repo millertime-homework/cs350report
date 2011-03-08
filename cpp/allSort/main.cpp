@@ -18,7 +18,7 @@ int main()
     outFile << "n, BubbleSort, QuickSort, InsertionSort, MergeSort\n";
 
     string toFile;
-    for(int j = 0; j < 11; j++)
+    for(int j = 0; j < 1; j++)
     {
         for(int i = 1; i <= 100; i++)
         {
@@ -53,11 +53,9 @@ int main()
             ss.str("");
 
 	    time(&t1);
-	    my_arrays.merge_sort(0, sizes[j]);
+	    my_arrays.merge_sort(0, sizes[j]-1);
 	    time(&t2);
 	    ss << t2 - t1;
-	    toFile += ss.str();
-
             toFile += ss.str() + "\n";
         }
     }
