@@ -34,7 +34,7 @@ public class AllSorts
 	int i;
 	int j;
 	String results = new String("n,quick,bubble,insertion,merge\n");
-	for(i = 8; i < 9; i++) {
+	for(i = 0; i < 9; i++) {
 	    String times = new String("");
 	    for(j = 1; j < 101; j++) {
 		name = "../lists/size" + sizes[i] + "/list" + j;
@@ -46,13 +46,13 @@ public class AllSorts
 		}
 	    }
 	    results += times;
+	    try {
+		writer = new PrintWriter(new BufferedWriter(new FileWriter(csvfile, true)));
+	    } catch (IOException e) {
+		throw new RuntimeException(e);
+	    }
+	    writer.append(results);
 	}
-	try {
-	    writer = new PrintWriter(new BufferedWriter(new FileWriter(csvfile, true)));
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
-	}
-	writer.append(results);
 	writer.close();
 	System.out.println("Done.");
     }
