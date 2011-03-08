@@ -1,69 +1,55 @@
-My responsibility for this project was to lead the coding side of things. We
-split up the main algorithms we would need to write so that each of us would be
-writing them in two languages. The two I chose were Java and Python. I have
-written a lot of small Python programs, and a few medium-scale ones. Java was a
-major refresher, as it has been a while. I thoroughly enjoy any chance I get to
-do just that. 
-
-Writing the algorithms themselves took very little time, especially in Python. 
-The language is so straight-forward that if you know what you want to do you 
-can have something working in very little time. That is its strong point. Later 
-in this paper, I'll discuss one of its weak points. I also used Python to 
-generate our lists. 
+% Russell Writeup
 
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
-languages. There were many struggles when I was developing this list generator. 
+languages. There were many struggles when we were developing this list generator.
 It took several tries to figure out how to build up the right amount of data in 
-memory before writing it to a file, because I did not want to spend extra time 
+memory before writing it to a file, because we did not want to spend extra time 
 doing more File I/O than necessary. 
 
-At first I did the stupidest and easiest method I could think of. I created a 
-very simple program that when given an argument, would create 1000 new files, 
-each containing a list of the size specified in its argument. This worked fine 
-for the first few sizes, so I naively ran the script in separate shells, with 
-different inputs, to get all of our lists ready. Once I had loaded up the CPU, I 
-watched the System Monitor as the System Memory became fully used up and the 
-kernel had to kill the scripts one by one.
+At first we started with a very simple program that when given an argument, would
+create 1000 new files, each containing a list of the size specified in its 
+argument. This worked fine for the first few sizes, so we ran the script in 
+separate shells, with different inputs, to get all of our lists ready. However,
+the system ran out of memory before it could finish.
 
-I quickly discovered that I needed to write each list to the file, one by one,
-rather than storing all of the information in memory and attempting to write all
-of the files at the end. This worked, and we got to see a preview of a long-
-running program, because generating those larger lists took quite a while.
+Next we decided to write each list to a file, one by one, rather than storing all 
+of the information in memory and attempting to write all of the files at the end. 
+This worked, but it took quite a considerable amount of time.
 
-Working in Java was very pleasant, as always. Though things can get very verbose
-the environment is definitely designed for engineers. One of the biggest
-struggles I faced was how to store the lists/arrays. At first I just wanted to
-have an array as a private field. I then found that most of the algorithms I was
-working with sorted in-place, meaning they would change the values in the array.
-This wouldn't work for a class that has four different sort algorithms going in
-sequence, and unfortunately I did not abstract the sorting out of the primary
-class. Rather, I created four arrays, one dedicated to each algorithm.
+One of the biggest struggles we faced while working with Java was determining how 
+to store the lists/arrays. At first we just wanted to have an array as a private 
+field. We then discovered that most of the algorithms we were working with sorted 
+in place, meaning they would change the values in the array. This wouldn't work 
+for a class that has four different sort algorithms going in sequence and
+accessing the same array, and unfortunately we did not abstract the sorting out 
+of the primary class. Rather, we used four arrays, one dedicated to each 
+algorithm.
 
 The next tricky thing was figuring out how to run the stopwatch on the 
-algorithms while they sort the lists. In my mind, it was something that should 
-happen from the outside, wherever the method is being called from. However, I
-wasn't calling them from main. The way I had set up the program was to simply
-invoke the constructor for the class in main. That way all methods are no longer
-conflicting with the static flag that main has. That's always been something I
-don't fully understand about Java. Well, to make the stopwatch work I ran it
-from inside the constructor. I even used class fields to store the resulting
-elapsed times, and sent them to main in a public method.
+algorithms while they sort the lists. We had just gotten done working on the
+timer in C++ and easily stuck it between the loop that switched between
+different sizes of lists and the loop that iterated through each list of the
+same size. Well with the way the Java program was laid out, those loops were in
+very different places. However, we were able to place the stopwatch calls right
+next to the sort method calls, and we used public methods to retrieve the times
+from the private fields they were stored in.
 
 The final struggle while working in Java, which carried over to implementing it
 in C++ as well, was the merge sort. Because the merge sort works with a set of
 lists whose sizes are constantly-changing, arrays would simply not do the trick.
-Rather, what I wanted to do was learn to use the Java List class. In attempting
-to do so, I also discovered the magic of the ArrayList class. Basically, it
+Rather, what we wanted to do was learn to use the Java List class. In attempting
+to do so, we also discovered the magic of the ArrayList class. Basically, it
 allows you to do list operations such as cons (Java calls it add), there is also
 a get function that allows you to refer to a specific index. Both of these
 operations came in handy. C++ has lists in its standard library, and though it
 did not have the get method, it was not difficult to make the translation from
 the Java code to the C++ code.
 
-Once I verified that all of the sorts were in fact sorting, adjusted the output
-that would be written to the CSV file, tested the stopwatch, and ran a dry-run
+Once we verified that all of the sorts were in fact sorting, adjusted the output
+that would be written to the CSV file, tested the stopwatch, and did a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
-before completing all of the lists. 
-%ADD MORE HERE
-%ONCE JAVA PROGRAM DONE RUNNING
+and still had not finished. At this point we became very worried, so we tried
+timing a single list of size 100,000. In java it only took about 30 seconds, but
+in C++ it took 3 minutes. We decided this could be our new size limit, and not
+go all the way to one million.
