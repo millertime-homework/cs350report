@@ -18,7 +18,7 @@ int main()
     outFile << "n, BubbleSort, QuickSort, InsertionSort, MergeSort\n";
 
     string toFile;
-    for(int j = 0; j < 1; j++)
+    for(int j = 0; j < 11; j++)
     {
         for(int i = 1; i <= 100; i++)
         {

@@ -81,7 +81,7 @@ void arrObj::getList(int listNum)
         arrBubble[i] = atoi(line.c_str());
         arrQuick[i] = atoi(line.c_str());
         arrInsertion[i] = atoi(line.c_str());
-	mergeList.push_front(atoi(line.c_str()));
+        mergeList.push_front(atoi(line.c_str()));
         i++;
         }
     f.close();
@@ -120,12 +120,12 @@ void arrObj::insertionSort()
 void arrObj::do_mergeSort()
 {
   list<int> dummy = mergeSort(mergeList);
-  assert(isMergeSorted(dummy));
+  //assert(isMergeSorted(dummy));
 }
 
 list<int> arrObj::mergeSort(list<int> a)
 {
-  int n = mergeList.size();
+  int n = a.size();
   if (n <= 1)
     return a;
   int middle = n / 2;
