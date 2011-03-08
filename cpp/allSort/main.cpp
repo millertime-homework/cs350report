@@ -18,9 +18,9 @@ int main()
     outFile << "n, BubbleSort, QuickSort, InsertionSort, MergeSort\n";
 
     string toFile;
-    for(int j = 0; j < 11; j++)
+    for(int j = 0; j < 1; j++)
     {
-        for(int i = 1; i <= 100; i++)
+        for(int i = 1; i <= 1; i++)
         {
             time_t t1, t2;
             arrObj my_arrays(sizes[j]);

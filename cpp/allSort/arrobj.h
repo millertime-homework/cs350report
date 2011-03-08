@@ -13,6 +13,7 @@ public:
     void bubbleSort();
     void printList(int *);
     bool isSorted(int *);
+    bool isSortedR(int *);
 
 private:
     int *arrBubble;

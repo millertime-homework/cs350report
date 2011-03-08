@@ -36,7 +36,7 @@ void arrObj::bubbleSort()
             }
         }
     }while(swap == 1);
-    //assert(isSorted(arrBubble));
+    assert(isSorted(arrBubble));
 
 }
 int arrObj::partition(int p, int r) {
@@ -63,6 +63,8 @@ void arrObj::quickSort(int p, int r) {
         quickSort(p, q - 1);
         quickSort(q + 1, r);
     }
+    //assert(isSortedR(arrQuick));
+    printList(arrQuick);
 }
 
 void arrObj::getList(int listNum)
@@ -120,7 +122,7 @@ void arrObj::insertionSort()
             j--;
         }
     }
-    //assert(isSorted(arrInsertion));
+    assert(isSorted(arrInsertion));
 }
 
 bool arrObj::isSorted(int *a)
@@ -131,14 +133,13 @@ bool arrObj::isSorted(int *a)
       return false;
   return true;
 }
-/*
-bool isSortedR(int a[], int size)
+
+bool arrObj::isSortedR(int *a)
 {
   int i;
-  for(i = 0; i < (size-1); i++)
+  for(i = 0; i < (arrSize-1); i++)
     if (a[i] < a[i+1])
       return false;
   return true;
 }
 
-*/
