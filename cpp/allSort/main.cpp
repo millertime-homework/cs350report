@@ -15,16 +15,16 @@ int main()
                         50000,100000,500000,1000000};
     ofstream outFile;
     outFile.open("output.csv");
-    outFile << "n, BubbleSort, QuickSort, InsertionSort, MergeSort\n";
+    outFile << "n, BubbleSort, InsertionSort, QuickSort, MergeSort\n";
 
     string toFile;
-    for(int j = 0; j < 1; j++)
+    for(int j = 7; j < 8; j++)
     {
         for(int i = 1; i <= 100; i++)
         {
             time_t t1, t2;
-            arrObj my_arrays(sizes[j]);
-            my_arrays.getList(i);
+            arrObj * my_arrays = new arrObj(sizes[j]);
+            my_arrays->getList(i);
 
             stringstream ss;
             ss << sizes[j]<< ",";
@@ -32,31 +32,33 @@ int main()
             ss.str("");
             /*
             time(&t1);
-            my_arrays.bubbleSort();
+            my_arrays->bubbleSort();
             time(&t2);
             ss << t2 - t1;
             toFile += ss.str() + ",";
             ss.str("");
 
             time(&t1);
-            my_arrays.insertionSort();
+            my_arrays->insertionSort();
             time(&t2);
             ss << t2 - t1;
             toFile += ss.str() + ",";
             ss.str("");
 
             time(&t1);
-            my_arrays.quickSort(0, sizes[j]);
+            my_arrays->do_quickSort();
             time(&t2);
             ss << t2 - t1;
             toFile += ss.str() + ",";
             ss.str("");
-            */
-            time(&t1);
-            my_arrays.do_mergeSort();
-            time(&t2);
-            ss << t2 - t1;
+
+	    time(&t1);
+	    my_arrays->do_mergeSort();
+	    time(&t2);
+	    ss << t2 - t1;
             toFile += ss.str() + "\n";
+	    
+	    delete my_arrays;
         }
     }
     outFile << toFile;

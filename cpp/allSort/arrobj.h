@@ -10,6 +10,7 @@ public:
     arrObj(int);
     ~arrObj();
     void getList(int);
+    void do_quickSort();
     void quickSort(int, int);
     int partition(int, int);
     void insertionSort();

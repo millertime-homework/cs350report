@@ -7,4 +7,4 @@ quickSort [] = []
 quickSort [x] = [x]
 quickSort (pivot:xs) = (quickSort smaller) ++ [pivot] ++ (quickSort larger)
   where smaller = filter (<= pivot) xs
-                larger  = filter (> pivot) xs
+	larger  = filter (> pivot) xs

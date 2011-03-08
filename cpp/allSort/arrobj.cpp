@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "arrobj.h"
 #include <iostream>
 #include <fstream>
@@ -34,31 +35,44 @@ void arrObj::bubbleSort()
             }
         }
     }while(swap == 1);
-    //assert(isSorted(arrBubble));
+    assert(isSorted(arrBubble));
 
 }
-int arrObj::partition(int p, int r) {
-    int x = arrQuick[r];
-    int j = p - 1;
-    for (int i = p; i < r; i++) {
-        if (x <= arrQuick[i]) {
-            j = j + 1;
-            int temp = arrQuick[j];
-            arrQuick[j] = arrQuick[i];
-            arrQuick[i] = temp;
-        }
-    }
-    arrQuick[r] = arrQuick[j + 1];
-    arrQuick[j + 1] = x;
-    return (j + 1);
+
+void arrObj::do_quickSort()
+{
+  quickSort(0, arrSize - 1);
+  //printList(arrQuick);
+  //assert(isSorted(arrQuick));
 }
 
-void arrObj::quickSort(int p, int r) {
-    if (p < r) {
-        int q = partition(p, r);
-        quickSort(p, q - 1);
-        quickSort(q + 1, r);
+void arrObj::quickSort(int left, int right) {
+  int pivot;
+  int left_index = left;
+  int right_index = right;
+  if ((right - left) > 0) {
+    pivot = (left + right) / 2;
+    while ((left_index <= pivot) && (right_index >= pivot)) {
+      while ((arrQuick[left_index] < arrQuick[pivot]) && (left_index <= pivot)) {
+	++left_index;
+      }
+      while ((arrQuick[right_index] > arrQuick[pivot]) && (right_index >= pivot)) {
+	--right_index;
+      }
+      int tmp = arrQuick[left_index];
+      arrQuick[left_index] = arrQuick[right_index];
+      arrQuick[right_index] = tmp;
+      ++left_index;
+      --right_index;
+      if (left_index - 1 == pivot) {
+	pivot = right_index = right_index + 1;
+      } else if (right_index + 1 == pivot) {
+	pivot = left_index = left_index - 1;
+      }
     }
+    quickSort(left, pivot - 1);
+    quickSort(pivot + 1, right);
+  }
 }
 
 void arrObj::getList(int listNum)
@@ -72,7 +86,6 @@ void arrObj::getList(int listNum)
     ss.str("");
 
     string filename = "../../lists/size" + strSize + "/list" + strNum;
-
     ifstream f(filename.c_str(), ifstream::in);
     string line;
     if (f) {
@@ -114,7 +127,7 @@ void arrObj::insertionSort()
             j--;
         }
     }
-    //assert(isSorted(arrInsertion));
+    assert(isSorted(arrInsertion));
 }
 
 void arrObj::do_mergeSort()
