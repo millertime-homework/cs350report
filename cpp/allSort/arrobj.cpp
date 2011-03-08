@@ -136,7 +136,6 @@ list<int> arrObj::mergeSort(list<int> a)
     left.push_back(right.front());
     right.pop_front();
   }
-  list<int>::iterator it;
   assert(left.size() + right.size() == a.size());
   left = mergeSort(left);
   right = mergeSort(right);
