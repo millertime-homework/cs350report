@@ -117,22 +117,61 @@ void arrObj::insertionSort()
     //assert(isSorted(arrInsertion));
 }
 
-void arrObj::mergeSort()
+void arrObj::do_mergeSort()
 {
-  //mergeList.sort();
-    assert(isMergeSorted());
+  list<int> dummy = mergeSort(mergeList);
+  assert(isMergeSorted(dummy));
 }
 
-void arrObj::merge()
+list<int> arrObj::mergeSort(list<int> a)
 {
-
+  int n = mergeList.size();
+  if (n <= 1)
+    return a;
+  int middle = n / 2;
+  list<int> right = a;
+  list<int> left;
+  list<int> result;
+  for(int i = 0; i < middle; i++) {
+    left.push_back(right.front());
+    right.pop_front();
+  }
+  list<int>::iterator it;
+  assert(left.size() + right.size() == a.size());
+  left = mergeSort(left);
+  right = mergeSort(right);
+  result = merge(left, right);
+  return result;
 }
 
-bool arrObj::isMergeSorted()
+list<int> arrObj::merge(list<int> a, list<int> b)
 {
-    list<int> testList = mergeList;
+  list<int> result;
+  while ((a.size() > 0) || (b.size() > 0)) {
+    if ((a.size() > 0) && (b.size() > 0)) {
+      if (a.front() <= b.front()) {
+        result.push_back(a.front());
+        a.pop_front();
+      } else {
+        result.push_back(b.front());
+        b.pop_front();
+      }
+    } else if (a.size() > 0) {
+      result.push_back(a.front());
+      a.pop_front();
+    } else if (b.size() > 0) {
+      result.push_back(b.front());
+      b.pop_front();
+    }
+  }
+  return result;
+}
+
+bool arrObj::isMergeSorted(list<int> a)
+{
+  list<int> testList = a;
     testList.sort();
-    return (testList == mergeList);
+    return (testList == a);
 }
 
 bool arrObj::isSorted(int *a)

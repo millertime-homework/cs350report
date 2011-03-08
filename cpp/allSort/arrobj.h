@@ -14,11 +14,12 @@ public:
     int partition(int, int);
     void insertionSort();
     void bubbleSort();
-    void mergeSort();
-    void merge();
+    void do_mergeSort();
+    list<int> mergeSort(list<int>);
+    list<int> merge(list<int>,list<int>);
     void printList(int *);
     bool isSorted(int *);
-    bool isMergeSorted();
+    bool isMergeSorted(list<int>);
 
 private:
     int *arrBubble;

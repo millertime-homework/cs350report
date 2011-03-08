@@ -53,7 +53,7 @@ int main()
             ss.str("");
 
 	    time(&t1);
-	    my_arrays.mergeSort();
+	    my_arrays.do_mergeSort();
 	    time(&t2);
 	    ss << t2 - t1;
             toFile += ss.str() + "\n";
