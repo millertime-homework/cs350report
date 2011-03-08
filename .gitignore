@@ -2,6 +2,6 @@
 *.aux
 *.log
 *.synctex.gz
-size*
+lists/size*
 *.pyc
 *.class

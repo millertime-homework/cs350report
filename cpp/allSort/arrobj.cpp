@@ -25,10 +25,8 @@ void arrObj::bubbleSort()
     int swap;
     do{
         swap = 0;
-        for (int n = 1; n < arrSize; n++)
-        {
-            if (arrBubble[n-1] > arrBubble[n])
-            {
+        for (int n = 1; n < arrSize; n++) {
+            if (arrBubble[n-1] > arrBubble[n]) {
                 swap = 1;
                 int temp = arrBubble[n-1];
                 arrBubble[n-1] = arrBubble[n];
@@ -43,7 +41,6 @@ int arrObj::partition(int p, int r) {
     int x = arrQuick[r];
     int j = p - 1;
     for (int i = p; i < r; i++) {
-
         if (x <= arrQuick[i]) {
             j = j + 1;
             int temp = arrQuick[j];
@@ -53,7 +50,6 @@ int arrObj::partition(int p, int r) {
     }
     arrQuick[r] = arrQuick[j + 1];
     arrQuick[j + 1] = x;
-
     return (j + 1);
 }
 
@@ -87,7 +83,7 @@ void arrObj::getList(int listNum)
         arrBubble[i] = atoi(line.c_str());
         arrQuick[i] = atoi(line.c_str());
         arrInsertion[i] = atoi(line.c_str());
-
+        mergeList.push_front(atoi(line.c_str()));
         i++;
         }
     f.close();
@@ -102,20 +98,18 @@ void arrObj::printList(int *array)
 {
     cout << arrSize << endl;
     cout << "{";
-    for (int n = 0; n < arrSize; n++)
-    {
+    for (int n = 0; n < arrSize; n++) {
         cout << array[n] << ", ";
     }
     cout << "}\n";
 }
+
 void arrObj::insertionSort()
 {
     int i, j, tmp;
-    for (i = 1; i < arrSize; i++)
-    {
+    for (i = 1; i < arrSize; i++) {
         j = i;
-        while (j > 0 && arrInsertion[j - 1] > arrInsertion[j])
-        {
+        while (j > 0 && arrInsertion[j - 1] > arrInsertion[j]) {
             tmp = arrInsertion[j];
             arrInsertion[j] = arrInsertion[j - 1];
             arrInsertion[j - 1] = tmp;
@@ -125,21 +119,67 @@ void arrObj::insertionSort()
     assert(isSorted(arrInsertion));
 }
 
+void arrObj::do_mergeSort()
+{
+  list<int> dummy = mergeSort(mergeList);
+  //assert(isMergeSorted(dummy));
+}
+
+list<int> arrObj::mergeSort(list<int> a)
+{
+  int n = a.size();
+  if (n <= 1)
+    return a;
+  int middle = n / 2;
+  list<int> right = a;
+  list<int> left;
+  list<int> result;
+  for(int i = 0; i < middle; i++) {
+    left.push_back(right.front());
+    right.pop_front();
+  }
+  assert(left.size() + right.size() == a.size());
+  left = mergeSort(left);
+  right = mergeSort(right);
+  result = merge(left, right);
+  return result;
+}
+
+list<int> arrObj::merge(list<int> a, list<int> b)
+{
+  list<int> result;
+  while ((a.size() > 0) || (b.size() > 0)) {
+    if ((a.size() > 0) && (b.size() > 0)) {
+      if (a.front() <= b.front()) {
+        result.push_back(a.front());
+        a.pop_front();
+      } else {
+        result.push_back(b.front());
+        b.pop_front();
+      }
+    } else if (a.size() > 0) {
+      result.push_back(a.front());
+      a.pop_front();
+    } else if (b.size() > 0) {
+      result.push_back(b.front());
+      b.pop_front();
+    }
+  }
+  return result;
+}
+
+bool arrObj::isMergeSorted(list<int> a)
+{
+  list<int> testList = a;
+    testList.sort();
+    return (testList == a);
+}
+
 bool arrObj::isSorted(int *a)
 {
-  int i;
-  for(i = 0; i < (arrSize-1); i++)
-    if (a[i] > a[i+1])
-      return false;
-  return true;
+    int i;
+    for(i = 0; i < (arrSize-1); i++)
+        if (a[i] > a[i+1])
+            return false;
+    return true;
 }
-
-bool arrObj::isSortedR(int *a)
-{
-  int i;
-  for(i = 0; i < (arrSize-1); i++)
-    if (a[i] < a[i+1])
-      return false;
-  return true;
-}
-
