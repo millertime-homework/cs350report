@@ -11,7 +11,6 @@ arrObj::arrObj(int s): arrSize(s)
     arrBubble = new int[arrSize];
     arrQuick = new int[arrSize];
     arrInsertion = new int[arrSize];
-    arrMerge = new int[arrSize];
 }
 
 arrObj::~arrObj()
@@ -19,7 +18,6 @@ arrObj::~arrObj()
     delete [] arrBubble;
     delete [] arrQuick;
     delete [] arrInsertion;
-    delete [] arrMerge;
 }
 
 void arrObj::bubbleSort()
@@ -83,7 +81,7 @@ void arrObj::getList(int listNum)
         arrBubble[i] = atoi(line.c_str());
         arrQuick[i] = atoi(line.c_str());
         arrInsertion[i] = atoi(line.c_str());
-	arrMerge[i] = atoi(line.c_str());
+	mergeList.push_front(atoi(line.c_str()));
         i++;
         }
     f.close();
@@ -119,9 +117,10 @@ void arrObj::insertionSort()
     //assert(isSorted(arrInsertion));
 }
 
-void arrObj::merge_sort()
+void arrObj::mergeSort()
 {
-    assert(isSorted(arrMerge));
+  //mergeList.sort();
+    assert(isMergeSorted());
 }
 
 void arrObj::merge()
@@ -129,12 +128,18 @@ void arrObj::merge()
 
 }
 
+bool arrObj::isMergeSorted()
+{
+    list<int> testList = mergeList;
+    testList.sort();
+    return (testList == mergeList);
+}
 
 bool arrObj::isSorted(int *a)
 {
-  int i;
-  for(i = 0; i < (arrSize-1); i++)
-    if (a[i] > a[i+1])
-      return false;
-  return true;
+    int i;
+    for(i = 0; i < (arrSize-1); i++)
+        if (a[i] > a[i+1])
+            return false;
+    return true;
 }

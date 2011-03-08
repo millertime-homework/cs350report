@@ -1,6 +1,9 @@
 #ifndef ARROBJ_H
 #define ARROBJ_H
 
+#include <list>
+using std::list;
+
 class arrObj
 {
 public:
@@ -11,16 +14,17 @@ public:
     int partition(int, int);
     void insertionSort();
     void bubbleSort();
-    void merge_sort(int,int);
-    void merge(int,int,int);
+    void mergeSort();
+    void merge();
     void printList(int *);
     bool isSorted(int *);
+    bool isMergeSorted();
 
 private:
     int *arrBubble;
     int *arrQuick;
     int *arrInsertion;
-    int *arrMerge;
+    list<int> mergeList;
     int arrSize;
 };
 #endif
