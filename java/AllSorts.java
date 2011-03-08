@@ -34,7 +34,7 @@ public class AllSorts
 	int i;
 	int j;
 	String results = new String("n,quick,bubble,insertion,merge\n");
-	for(i = 0; i < 11; i++) {
+	for(i = 8; i < 9; i++) {
 	    String times = new String("");
 	    for(j = 1; j < 101; j++) {
 		name = "../lists/size" + sizes[i] + "/list" + j;
