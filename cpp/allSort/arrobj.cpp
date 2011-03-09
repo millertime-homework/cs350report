@@ -35,7 +35,7 @@ void arrObj::bubbleSort()
             }
         }
     }while(swap == 1);
-    assert(isSorted(arrBubble));
+    //assert(isSorted(arrBubble));
 
 }
 
@@ -127,7 +127,7 @@ void arrObj::insertionSort()
             j--;
         }
     }
-    assert(isSorted(arrInsertion));
+    //assert(isSorted(arrInsertion));
 }
 
 void arrObj::do_mergeSort()
@@ -149,7 +149,7 @@ list<int> arrObj::mergeSort(list<int> a)
     left.push_back(right.front());
     right.pop_front();
   }
-  assert(left.size() + right.size() == a.size());
+  //assert(left.size() + right.size() == a.size());
   left = mergeSort(left);
   right = mergeSort(right);
   result = merge(left, right);
