@@ -30,7 +30,7 @@ int main()
             ss << sizes[j]<< ",";
             toFile += ss.str();
             ss.str("");
-
+            /*
             time(&t1);
             my_arrays->bubbleSort();
             time(&t2);
