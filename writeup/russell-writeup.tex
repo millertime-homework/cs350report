@@ -13,6 +13,7 @@ in this paper, I'll discuss one of its weak points. I also used Python to
 generate our lists. 
 % Russell Writeup
 
+% generating the lists
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
 languages. There were many struggles when we were developing this list generator.
@@ -30,6 +31,7 @@ Next we decided to write each list to a file, one by one, rather than storing al
 of the information in memory and attempting to write all of the files at the end. 
 This worked, but it took quite a considerable amount of time.
 
+% struggles with java
 One of the biggest struggles we faced while working with Java was determining how 
 to store the lists/arrays. At first we just wanted to have an array as a private 
 field. We then discovered that most of the algorithms we were working with sorted 
@@ -59,6 +61,7 @@ operations came in handy. C++ has lists in its standard library, and though it
 did not have the get method, it was not difficult to make the translation from
 the Java code to the C++ code.
 
+% struggles with list sizes
 Once we verified that all of the sorts were in fact sorting, adjusted the output
 that would be written to the CSV file, tested the stopwatch, and did a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
@@ -70,3 +73,37 @@ and still had not finished. At this point we became very worried, so we tried
 timing a single list of size 100,000. In java it only took about 30 seconds, but
 in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
+
+% understanding algorithms
+While putting these sorting algorithms into our programs, one thing that helped
+us understand them was to go through them, line by line, with an example on a
+dry erase board. In addition, we made sure to test them all and verify that they
+were doing their job. The first sort we studied was the Quicksort. It turns out
+it is a relatively simple algorithm. When looking at an array of numbers, you
+simply pick a value that is present in the array - the pivot - and divide the 
+rest of the array based on whether the values are less than or greater than the 
+pivot. It's recursive so you then apply this to those two new arrays.
+
+The Quicksort is a strange beast. When compared with the complexity of other
+sorting algorithms it doesn't seem to be so great because of the worst case n^2
+time that it can take. However, it is extremely unlikely for that case to take
+place. The behavior of Quicksort for smaller n seems to be much faster than that
+of the algorithms which do not have as high of a worst-case condition. The
+trickiest part is getting a good pivot value. By getting a lucky pivot value the
+divide portion of this divide-and-conquer algorithm is more effective. The
+reason n^2 is possible is that the recursion only stops when the list being
+sorted has been reduced to size one. So if every pivot value is the worst
+possible pivot value, every divide will result in an empty list, and an n-1
+sized list. We have drawn an example of Quicksort in action.
+
+% quicksort.jpg goes here
+
+% testing
+In order to verify that our algorithms were sound, we implemented a good deal of
+testing. The test set was usually the full 100 lists of a specific size, and in
+order to verify that the list in question is actually sorted afterwards, we did
+a few different things, depending on the language we were working with. Python
+has a built in function called sort, so we simply checked that the list we
+sorted was the same as the one Python sorted. In Java there was also a built-in
+sort function call. In C++ we iterated through the array, making sure that every
+value was less than its successor.
