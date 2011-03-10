@@ -68,18 +68,24 @@ We also had difficulty with the disk space all of these lists took up.
 We eventually reduced the number of each size of list from 1000 to 100.
 
 % struggles with java
-One of the biggest struggles we faced while working with Java was determining how 
-to store the lists/arrays. At first we just wanted to have an array as a private 
+One of the struggles we faced while working with Java was determining how 
+to store the lists/arrays after reading them in from a file. At first we just wanted to have an array as a private class
 field. We then discovered that most of the algorithms we were working with sorted 
-in place, meaning they would change the values in the array. This wouldn't work 
+in place, meaning they would destructively change the values in the array. This would cause inconsistency
 for a class that has four different sort algorithms going in sequence and
 accessing the same array, and unfortunately we did not abstract the sorting out 
-of the primary class. Rather, we used four arrays, one dedicated to each 
+of the primary class. Rather we used four arrays, one dedicated to each 
 algorithm.
 
 % timing issues
 The next tricky thing was figuring out how to run the stopwatch on the 
-algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library \texttt{sys/time.h} which gives clock cycles per second. We wanted it in seconds so ended up trying \texttt{gettimeofday()}, but that function returns seconds (or the nanoseconds AFTER the decimal) so that was a total mess to work with. We ended up using \texttt{clock()} and some simple arithmetic to get the time format to be exactly how we wanted:
+algorithms while they sorted the lists. The way the Java program was laid out, we were able to place the stopwatch calls right 
+next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. 
+We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library 
+\texttt{sys/time.h} which gives a value for the current clock cycle. We wanted the elapsed time in seconds, in order to compare the
+elapsed time to the other languages, so next tried to use \texttt{gettimeofday()}. This is a function that returns seconds and the nanoseconds in a struct.
+We struggled a lot with getting readable results from the values in the struct. After researching more, we found a message board online with the following
+extremely helpful hint. Using \texttt{clock()} and a C macro, we were finally getting seconds as a decimal value.
 \linespread{1}
 \begin{verbatim}
 // source: http://www.physicsforums.com/showthread.php?t=224989
@@ -91,11 +97,13 @@ double diffclock(clock_t t1, clock_t t2)
 }
 \end{verbatim}
 \linespread{1.5}
-The final struggle while working in Java, which carried over to implementing it
-in C++ as well, was the merge sort. The way we understood the merge sort algorithm
+The final struggle while working in Java, which carried over to the C++ implementation as well, was the merge sort. The way we understood the merge sort algorithm
 was that it split the list into two smaller lists and recursed down to those. Then
-the merge action put the smaller lists back together. Algorithms exist to do this in place with an array, but the easier implementation was to try the Java \texttt{List} class. In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
-allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also a \texttt{get} function that allows you to refer to a specific index. Both of these operations came in handy. C++ has lists in its standard library, and though it did not have the get method, it was not difficult to make the translation from the Java code to the C++ code.
+the merge action put the smaller lists back together. Algorithms exist to do this in place with an array, but the easier implementation was to try the 
+Java \texttt{List} class. In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
+allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also a \texttt{get} function that allows 
+you to refer to a specific index. Both of these operations came in handy. C++ has lists in its standard library, and though it did 
+not have the get method, it was not difficult to make the translation from the Java code to the C++ code.
 
 % struggles with list sizes
 Once we verified that all of the sorts were in fact sorting, adjusted the output
