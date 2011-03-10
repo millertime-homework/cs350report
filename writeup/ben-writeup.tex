@@ -28,21 +28,29 @@ This project is an assessment of several sorting algorithms. We chose to impleme
 \item Quick, average $O(n$ lg $n)$ worst-case $O(n^2)$
 \item Merge, average and worst-case $O(n$ lg $n)$
 \end{itemize}
-These four algorithms were implemented and tested in two languages: C++ and Java. We had initially planned on including Python and Haskell, but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and C++ algorithms. Each program tested 100 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data (lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
+These four algorithms were implemented and tested in two languages: C++ and Java. We had initially planned on including Python and Haskell, 
+but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and 
+C++ algorithms. Each program tested 900 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 
+10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how 
+complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data 
+(lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
 
 \section*{Background}
 
 We split up the main algorithms we would need to write so that each of us would be
 writing them in two languages. Russell worked in Java and Python while Ben worked in Haskell and C++. Russell has
 written a lot of small Python programs, and a few medium-scale ones. Java was a
-major refresher for him, as it has been a while. Ben was fairly new to Haskell and hadn't used C++ much since his freshman year of college, so Russell was helpful when he got stuck. Writing the algorithms themselves took very little time, especially in Python and Haskell. The language is so straight-forward that if you know what you want to do you can have something working in very little time. Later 
-in this paper, we'll discuss one of its weak points. We also used Python to 
-generate our lists. 
+major refresher for him, as it has been a while. Ben was fairly new to Haskell and hadn't used C++ much since his 
+freshman year of college, so Russell was helpful when he got stuck. Writing the algorithms themselves took very 
+little time, especially in Python and Haskell. These languages are so straight-forward that if you know what you 
+want to do you can have something working in very little time. Later 
+in this paper, we'll discuss one of Python's weak points. We also used Python to 
+generate our lists and write them to files.
 
 % generating the lists
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
-languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare one language to another, it would be unfair to compare their performance if they were operating on different data. There were many struggles when we were developing this list generator.
+languages. The reason behind this was our plan of comparing the implementations across languages. That is, if we wanted to compare one language to another, it would be unfair to compare their performance if they were operating on different data. There were many struggles when we were developing this list generator.
 It took several tries to figure out how to build up the right amount of data in 
 memory before writing it to a file, because we did not want to spend extra time 
 doing more File I/O than necessary. 
@@ -55,21 +63,29 @@ the system ran out of memory before it could finish.
 
 Next we decided to write each list to a file, one by one, rather than storing all 
 of the information in memory and attempting to write all of the files at the end. 
-This worked, but it took quite a considerable amount of time. This is the method we used; it was slow but got the work done.
+This worked, but it took quite a considerable amount of time. 
+We also had difficulty with the disk space all of these lists took up.
+We eventually reduced the number of each size of list from 1000 to 100.
 
 % struggles with java
-One of the biggest struggles we faced while working with Java was determining how 
-to store the lists/arrays. At first we just wanted to have an array as a private 
+One of the struggles we faced while working with Java was determining how 
+to store the lists/arrays after reading them in from a file. At first we just wanted to have an array as a private class
 field. We then discovered that most of the algorithms we were working with sorted 
-in place, meaning they would change the values in the array. This wouldn't work 
+in place, meaning they would destructively change the values in the array. This would cause inconsistency
 for a class that has four different sort algorithms going in sequence and
 accessing the same array, and unfortunately we did not abstract the sorting out 
-of the primary class. Rather, we used four arrays, one dedicated to each 
+of the primary class. Rather we used four arrays, one dedicated to each 
 algorithm.
 
 % timing issues
 The next tricky thing was figuring out how to run the stopwatch on the 
-algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library \texttt{sys/time.h} which gives clock cycles per second. We wanted it in seconds so ended up trying \texttt{gettimeofday()}, but that function returns seconds (or the nanoseconds AFTER the decimal) so that was a total mess to work with. We ended up using \texttt{clock()} and some simple arithmetic to get the time format to be exactly how we wanted:
+algorithms while they sorted the lists. The way the Java program was laid out, we were able to place the stopwatch calls right 
+next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. 
+We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library 
+\texttt{sys/time.h} which gives a value for the current clock cycle. We wanted the elapsed time in seconds, in order to compare the
+elapsed time to the other languages, so next tried to use \texttt{gettimeofday()}. This is a function that returns seconds and the nanoseconds in a struct.
+We struggled a lot with getting readable results from the values in the struct. After researching more, we found a message board online with the following
+extremely helpful hint. Using \texttt{clock()} and a C macro, we were finally getting seconds as a decimal value.
 \linespread{1}
 \begin{verbatim}
 // source: http://www.physicsforums.com/showthread.php?t=224989
@@ -81,11 +97,13 @@ double diffclock(clock_t t1, clock_t t2)
 }
 \end{verbatim}
 \linespread{1.5}
-The final struggle while working in Java, which carried over to implementing it
-in C++ as well, was the merge sort. The way we understood the merge sort algorithm
+The final struggle while working in Java, which carried over to the C++ implementation as well, was the merge sort. The way we understood the merge sort algorithm
 was that it split the list into two smaller lists and recursed down to those. Then
-the merge action put the smaller lists back together. Algorithms exist to do this in place with an array, but the easier implementation was to try the Java \texttt{List} class. In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
-allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also a \texttt{get} function that allows you to refer to a specific index. Both of these operations came in handy. C++ has lists in its standard library, and though it did not have the get method, it was not difficult to make the translation from the Java code to the C++ code.
+the merge action put the smaller lists back together. Algorithms exist to do this in place with an array, but the easier implementation was to try the 
+Java \texttt{List} class. In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
+allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also a \texttt{get} function that allows 
+you to refer to a specific index. Both of these operations came in handy. C++ has lists in its standard library, and though it did 
+not have the get method, it was not difficult to make the translation from the Java code to the C++ code.
 
 % struggles with list sizes
 Once we verified that all of the sorts were in fact sorting, adjusted the output
@@ -93,11 +111,21 @@ that would be written to the CSV file, tested the stopwatch, and did a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
 and still had not finished. At this point we became very worried, so we tried
 timing a single list of size 100,000. In java it only took about 30 seconds, but
-in C++ it took 3 minutes. We decided this could be our new size limit, and not
-go all the way to one million.
+in C++ it took 3 minutes. We later discovered that this enormous difference in time
+for these very similar languages was due to leaving some extra asserts in the code
+and forgetting to comment them out for the stopwatch trials. Still, at this point
+we decided to reduce our list size limit to 100,000 instead of one million.
 
 \section*{Findings and Analysis}
-Our Java program ran in about 2 hours, and C++ took approximately 10 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
+Our C++ and Java programs took a total elapsed time of about 2 hours to sort all of the lists, 
+sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. For each of these sizes, 
+100 different lists were sorted by each algorithm (the total number of lists the program sorted was $100 * |n| = 900)$. 
+The average time for each algorithm (in seconds) was recorded and can be found in Table 1, and  
+Figure 6 is a graph of these averages. We wanted to see how consistent the algorithms were behaving, and figures 2 through 5 show each trial's 
+execution time (for each algorithm). Quicksort ran incredibly fast, so we decided to run it on larger 
+lists (up to n = 100,000,000). Table 2 shows the Quicksort against the calculated $n$ log $n$ values.
+Note that in C++ our values of $n$ were much higher. When attempting those values with Java, the virtual machine
+ran out of memory and threw an exception so a lower limit was used.
 \\ \\ \\
 \begin{table}\footnotesize
 \begin{center}
@@ -130,40 +158,7 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge\\ \hline
   \caption{Behavior of quick sort for $n$ up to 10,000,000}
 \end{figure}
 
-
-
-
 \section*{Understanding Algorithms}
-% understanding algorithms - insertion sort
-The insertion sort is a particularly bad algorithm. What it does is iterate
-through the list, starting at the second element. This iteration is O(n). For
-each iteration, There is also a while loop that starts at that point and goes
-backwards towards the beginning of the list swapping values that are out of
-order. The example I wrote shows how the "key" value is iterating across the
-array, and each time a new "key" is assigned a value, the while loop causes
-swaps towards the beginning. In asymptotic terms, the while loop is also O(n).
-Most of the time, the while loop that happens after each new value is assigned
-to "key" does not actually traverse all the way to the beginning of the array,
-so the worst-case condition is not highly probable. On a sorted list, the
-condition to enter the while loop is always false and the complexity is O(n) for
-the entire sort, because it is handled with just the for loop.
-
-% understanding algorithms - complexity of quicksort
-The complexity of Quicksort can vary considerably depending on the layout of the
-data being sorted and on how the pivot value is picked. Carefully picking a
-pivot value can be considered optimization and in our algorithms we didn't do
-anything special to pick ours. This is a divide and conquer algorithm, and on
-average can do O(n logn). The conquer part is a platform-specific complexity
-because sometimes concatenating lists or arrays together can be constant, but is
-usually a linear operation. The divide happens around a pivot value, and if the
-pivot value is greater than half of the array and less than the other half there
-will be a logarithmic complexity for the divide. If the pivot value causes one
-side of the division to be a lot larger than the other, the complexity moves
-toward quadratic. The nice thing about this algorithm, though, is it doesn't
-need to do as many comparisons as Merge Sort. Once it has done its full
-recursion it is simply concatenating results together. This may be the primary
-reason for Quicksort's victory.
-
 % understanding algorithms
 While putting these sorting algorithms into our programs, one thing that helped
 us understand them was to go through them, line by line, with an example on a
@@ -187,6 +182,38 @@ sized list. Figure 1 is a hand-drawn example of Quicksort in action.
     \includegraphics[width=.7\textwidth]{quicksort-drawing.jpg}
   \caption{Walkthrough of quicksort}
 \end{figure}
+
+% understanding algorithms - complexity of quicksort
+The complexity of Quicksort can vary considerably depending on the layout of the
+data being sorted and on how the pivot value is picked. Carefully picking a
+pivot value can be considered optimization and in our algorithms we didn't do
+anything special to pick ours. This is a divide and conquer algorithm, and on
+average can do O(n logn). The conquer part is a platform-specific complexity
+because sometimes concatenating lists or arrays together can be constant, but is
+usually a linear operation. The divide happens around a pivot value, and if the
+pivot value is greater than half of the array and less than the other half there
+will be a logarithmic complexity for the divide. If the pivot value causes one
+side of the division to be a lot larger than the other, the complexity moves
+toward quadratic. The nice thing about this algorithm, though, is it doesn't
+need to do as many comparisons as Merge Sort. Once it has done its full
+recursion it is simply concatenating results together. This may be the primary
+reason for Quicksort's victory.
+
+% understanding algorithms - insertion sort
+The insertion sort is a particularly bad algorithm. What it does is iterate
+through the list, starting at the second element. This iteration is $O(n)$. For
+each iteration, There is also a while loop that starts at that point and goes
+backwards towards the beginning of the list swapping values that are out of
+order. The example I wrote shows how the "key" value is iterating across the
+array, and each time a new "key" is assigned a value, the while loop causes
+swaps towards the beginning. In asymptotic terms, the while loop is also $O(n)$.
+Most of the time, the while loop that happens after each new value is assigned
+to "key" does not actually traverse all the way to the beginning of the array,
+so the worst-case condition is not highly probable. On a sorted list, the
+condition to enter the while loop is always false and the complexity is $O(n)$ for
+the entire sort, because it is handled with just the for loop. In all other lists,
+however, the complexity is $O(n)$ for the for loop, times $O(n)$ for the while loop,
+resulting in $O(n^2)$.
 
 The easiest algorithm to implement was bubble sort. The complexity is average case$O(n^2)$, as is shown in our comparison graphs. The reason that the complexity is so bad is as follows. It walks along the array/list (which is size n) and compares each item in order. When it gets through the list, it starts over, and on average has to walk through the list n times because it's only fixing (more or less) one thing at a time each time it walks through. I feel that detailed comments are the best way I can explain how bubble sort works:
 \linespread{1}
