@@ -1,17 +1,11 @@
 % Russell Writeup
 
 % understanding algorithms - complexity of quicksort
-The complexity of Quicksort can vary considerably depending on the layout of the
-data being sorted and on how the pivot value is picked. Carefully picking a
-pivot value can be considered optimization and in our algorithms we didn't do
-anything special to pick ours. This is a divide and conquer algorithm, and on
-average can do O(n logn). The conquer part is a platform-specific complexity
-because sometimes concatenating lists or arrays together can be constant, but is
-usually a linear operation. The divide happens around a pivot value, and if the
-pivot value is greater than half of the array and less than the other half there
-will be a logarithmic complexity for the divide. If the pivot value causes one
-side of the division to be a lot larger than the other, the complexity moves
-toward quadratic. The nice thing about this algorithm, though, is it doesn't
-need to do as many comparisons as Merge Sort. Once it has done its full
-recursion it is simply concatenating results together. This may be the primary
-reason for Quicksort's victory.
+In order to verify that our algorithms were sound, we implemented a good deal of testing. The test set we used while developing was 100 lists of size 10. In order to
+verify that a list was sorted after an algorithm ran, we used assertions to make sure that regression was never introduced. In Java, there was a method available
+to sort an Array. After running all of the sorts, we created a test copy of the original array data, ran the Java array sort on it, and iterated through each
+array our algorithms sorted making sure that each value of the arrays matched. Not only does this verify that the array is sorted, but it also verifies that no values
+have mysteriously disappeared from the original data. C++ was not quite as elegant. We simply iterated through the arrays that we believed were sorted, and made sure
+each value was less than its successor. Not only were we preventive with making sure our algorithms were sound, but we ran our timers multiple times due to the results
+that were gathered. We knew something was wrong when C++ was taking four times longer than Java, and further investigation showed us that there were assertions being run
+that should have been disabled while the timer was going. Our final run had results that were much more realistic, where C++ and Java took a very similar amount of time.
