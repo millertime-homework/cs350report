@@ -80,12 +80,13 @@ double diffclock(clock_t t1, clock_t t2)
 \end{verbatim}
 \linespread{1.5}
 The final struggle while working in Java, which carried over to implementing it
-in C++ as well, was the merge sort. Because the merge sort works with a set of
-lists whose sizes are constantly-changing, arrays would simply not do the trick.
-Rather, what we wanted to do was learn to use the Java List class. In attempting
-to do so, we also discovered the magic of the ArrayList class. Basically, it
-allows you to do list operations such as cons (Java calls it add), there is also
-a get function that allows you to refer to a specific index. Both of these
+in C++ as well, was the merge sort. The way we understood the merge sort algorithm
+was that it split the list into two smaller lists and recursed down to those. Then
+the merge action put the smaller lists back together. Algorithms exist to do this in
+place with an array, but the easier implementation was to try the Java \texttt{List} class.
+In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
+allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also
+a \texttt{get} function that allows you to refer to a specific index. Both of these
 operations came in handy. C++ has lists in its standard library, and though it
 did not have the get method, it was not difficult to make the translation from
 the Java code to the C++ code.
