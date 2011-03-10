@@ -158,40 +158,7 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge\\ \hline
   \caption{Behavior of quick sort for $n$ up to 10,000,000}
 \end{figure}
 
-
-
-
 \section*{Understanding Algorithms}
-% understanding algorithms - insertion sort
-The insertion sort is a particularly bad algorithm. What it does is iterate
-through the list, starting at the second element. This iteration is O(n). For
-each iteration, There is also a while loop that starts at that point and goes
-backwards towards the beginning of the list swapping values that are out of
-order. The example I wrote shows how the "key" value is iterating across the
-array, and each time a new "key" is assigned a value, the while loop causes
-swaps towards the beginning. In asymptotic terms, the while loop is also O(n).
-Most of the time, the while loop that happens after each new value is assigned
-to "key" does not actually traverse all the way to the beginning of the array,
-so the worst-case condition is not highly probable. On a sorted list, the
-condition to enter the while loop is always false and the complexity is O(n) for
-the entire sort, because it is handled with just the for loop.
-
-% understanding algorithms - complexity of quicksort
-The complexity of Quicksort can vary considerably depending on the layout of the
-data being sorted and on how the pivot value is picked. Carefully picking a
-pivot value can be considered optimization and in our algorithms we didn't do
-anything special to pick ours. This is a divide and conquer algorithm, and on
-average can do O(n logn). The conquer part is a platform-specific complexity
-because sometimes concatenating lists or arrays together can be constant, but is
-usually a linear operation. The divide happens around a pivot value, and if the
-pivot value is greater than half of the array and less than the other half there
-will be a logarithmic complexity for the divide. If the pivot value causes one
-side of the division to be a lot larger than the other, the complexity moves
-toward quadratic. The nice thing about this algorithm, though, is it doesn't
-need to do as many comparisons as Merge Sort. Once it has done its full
-recursion it is simply concatenating results together. This may be the primary
-reason for Quicksort's victory.
-
 % understanding algorithms
 While putting these sorting algorithms into our programs, one thing that helped
 us understand them was to go through them, line by line, with an example on a
@@ -215,6 +182,38 @@ sized list. Figure 1 is a hand-drawn example of Quicksort in action.
     \includegraphics[width=.7\textwidth]{quicksort-drawing.jpg}
   \caption{Walkthrough of quicksort}
 \end{figure}
+
+% understanding algorithms - complexity of quicksort
+The complexity of Quicksort can vary considerably depending on the layout of the
+data being sorted and on how the pivot value is picked. Carefully picking a
+pivot value can be considered optimization and in our algorithms we didn't do
+anything special to pick ours. This is a divide and conquer algorithm, and on
+average can do O(n logn). The conquer part is a platform-specific complexity
+because sometimes concatenating lists or arrays together can be constant, but is
+usually a linear operation. The divide happens around a pivot value, and if the
+pivot value is greater than half of the array and less than the other half there
+will be a logarithmic complexity for the divide. If the pivot value causes one
+side of the division to be a lot larger than the other, the complexity moves
+toward quadratic. The nice thing about this algorithm, though, is it doesn't
+need to do as many comparisons as Merge Sort. Once it has done its full
+recursion it is simply concatenating results together. This may be the primary
+reason for Quicksort's victory.
+
+% understanding algorithms - insertion sort
+The insertion sort is a particularly bad algorithm. What it does is iterate
+through the list, starting at the second element. This iteration is $O(n)$. For
+each iteration, There is also a while loop that starts at that point and goes
+backwards towards the beginning of the list swapping values that are out of
+order. The example I wrote shows how the "key" value is iterating across the
+array, and each time a new "key" is assigned a value, the while loop causes
+swaps towards the beginning. In asymptotic terms, the while loop is also $O(n)$.
+Most of the time, the while loop that happens after each new value is assigned
+to "key" does not actually traverse all the way to the beginning of the array,
+so the worst-case condition is not highly probable. On a sorted list, the
+condition to enter the while loop is always false and the complexity is $O(n)$ for
+the entire sort, because it is handled with just the for loop. In all other lists,
+however, the complexity is $O(n)$ for the for loop, times $O(n)$ for the while loop,
+resulting in $O(n^2)$.
 
 The easiest algorithm to implement was bubble sort. The complexity is average case$O(n^2)$, as is shown in our comparison graphs. The reason that the complexity is so bad is as follows. It walks along the array/list (which is size n) and compares each item in order. When it gets through the list, it starts over, and on average has to walk through the list n times because it's only fixing (more or less) one thing at a time each time it walks through. I feel that detailed comments are the best way I can explain how bubble sort works:
 \linespread{1}
