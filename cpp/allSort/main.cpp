@@ -22,11 +22,11 @@ int main()
     int sizes[11] = {10,50,100,500,1000,5000,10000,
                         50000,100000,500000,1000000};
     ofstream outFile;
-    outFile.open("output.csv");
+    outFile.open("cpp-results.csv");
     outFile << "n, BubbleSort, InsertionSort, QuickSort, MergeSort\n";
 
     string toFile;
-    for(int j = 0; j < 11; j++)
+    for(int j = 0; j < 9; j++)
     {
         for(int i = 1; i <= 100; i++)
         {
