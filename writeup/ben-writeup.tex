@@ -100,7 +100,8 @@ go all the way to one million.
 
 \section*{Findings and Analysis}
 Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$, using a trend line with regression type "power" for bubble, insertion and merge sort and logarithmic for quick sort. 
-\begin{table}[h]
+\\ \\ \\
+\begin{table}\footnotesize
 \begin{center}
 \begin{tabular}{ r | l l l l  }
 
@@ -119,7 +120,7 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge\\ \hline
 \end{center}
 \caption{Java average run times (in seconds) of unordered lists.}
 \end{table}
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
     \includegraphics[width=0.9\textwidth]{JAllSorts.png}
   \caption{Behavior of sorts against each other}
