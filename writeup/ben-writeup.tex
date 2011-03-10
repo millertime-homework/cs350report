@@ -41,7 +41,7 @@ generate our lists.
 % generating the lists
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
-languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare language $L_1$ to language $L_2$ it would be unfair to compare their performance of they were operating on different data. There were many struggles when we were developing this list generator.
+languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare one language to another, it would be unfair to compare their performance if they were operating on different data. There were many struggles when we were developing this list generator.
 It took several tries to figure out how to build up the right amount of data in 
 memory before writing it to a file, because we did not want to spend extra time 
 doing more File I/O than necessary. 
@@ -70,11 +70,12 @@ The next tricky thing was figuring out how to run the stopwatch on the
 algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library \texttt{sys/time.h} which gives clock cycles per second. We wanted it in seconds so ended up trying \texttt{gettimeofday()}, but that function returns seconds (or the nanoseconds AFTER the decimal) so that was a total mess to work with. We ended up using \texttt{clock()} and some simple arithmetic to get the time format to be exactly how we wanted:
 \linespread{1}
 \begin{verbatim}
+// source: http://www.physicsforums.com/showthread.php?t=224989
 double diffclock(clock_t t1, clock_t t2)
 {
   double diffticks = t2 - t1;
-  double diffms = diffticks / (double)CLOCKS_PER_SEC;
-  return diffms;
+  double diff = diffticks / (double)CLOCKS_PER_SEC;
+  return diff;
 }
 \end{verbatim}
 \linespread{1.5}
@@ -99,7 +100,7 @@ in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
 
 \section*{Findings and Analysis}
-Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$, using a trend line with regression type "power" for bubble, insertion and merge sort and logarithmic for quick sort. 
+Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$, using a trend line with regression type "power" for bubble, insertion and merge sort and logarithmic for quick sort. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
 \\ \\ \\
 \begin{table}\footnotesize
 \begin{center}
@@ -125,6 +126,14 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge\\ \hline
     \includegraphics[width=0.9\textwidth]{JAllSorts.png}
   \caption{Behavior of sorts against each other}
 \end{figure}
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=1.0\textwidth]{JHardcoreQS.png}
+  \caption{Behavior of sorts against each other}
+\end{figure}
+
+
 
 
 \section*{Understanding Algorithms}
