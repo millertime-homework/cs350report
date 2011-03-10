@@ -8,6 +8,14 @@
 #include <math.h>
 using namespace std;
 
+//http://www.physicsforums.com/showthread.php?t=224989
+double diffclock(clock_t t1, clock_t t2)
+{
+  double diffticks = t2 - t1;
+  double diffms = diffticks / (double)CLOCKS_PER_SEC;
+  return diffms;
+}
+
 int main()
 {
     // We will sort unsorted lists of size:
@@ -18,11 +26,11 @@ int main()
     outFile << "n, BubbleSort, InsertionSort, QuickSort, MergeSort\n";
 
     string toFile;
-    for(int j = 7; j < 8; j++)
+    for(int j = 0; j < 11; j++)
     {
         for(int i = 1; i <= 100; i++)
         {
-            time_t t1, t2;
+            clock_t t1, t2;
             arrObj * my_arrays = new arrObj(sizes[j]);
             my_arrays->getList(i);
 
@@ -30,32 +38,32 @@ int main()
             ss << sizes[j]<< ",";
             toFile += ss.str();
             ss.str("");
-            /*
-            time(&t1);
+
+	    t1 = clock();
             my_arrays->bubbleSort();
-            time(&t2);
-            ss << t2 - t1;
+	    t2 = clock();
+            ss << diffclock(t1, t2);
             toFile += ss.str() + ",";
             ss.str("");
 
-            time(&t1);
+	    t1 = clock();
             my_arrays->insertionSort();
-            time(&t2);
-            ss << t2 - t1;
+	    t2 = clock();
+            ss << diffclock(t1, t2);
             toFile += ss.str() + ",";
             ss.str("");
 
             time(&t1);
             my_arrays->do_quickSort();
             time(&t2);
-            ss << t2 - t1;
+            ss << diffclock(t1, t2);
             toFile += ss.str() + ",";
             ss.str("");
 
 	    time(&t1);
 	    my_arrays->do_mergeSort();
 	    time(&t2);
-	    ss << t2 - t1;
+            ss << diffclock(t1, t2);
             toFile += ss.str() + "\n";
 	    
 	    delete my_arrays;
