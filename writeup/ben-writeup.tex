@@ -2,6 +2,7 @@
 \documentclass[12pt]{amsart}
 \usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
 \linespread{1.5}
+\usepackage{graphicx}
 \geometry{a4paper} % or letter or a5paper or ... etc
 % \geometry{landscape} % rotated page geometry
 
@@ -97,9 +98,9 @@ timing a single list of size 100,000. In java it only took about 30 seconds, but
 in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
 
-\section*{ANALYSIS}
+\section*{Understanding Algorithms}
 
-After this change, our Java program ran in about 2 hours, on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. 
+Our Java program ran in about 2 hours, on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. 
 
 % understanding algorithms
 While putting these sorting algorithms into our programs, one thing that helped
@@ -112,15 +113,19 @@ rest of the array based on whether the values are less than or greater than the
 pivot. It's recursive so you then apply this to those two new arrays.
 
 The Quicksort is a strange beast. When compared with the complexity of other
-sorting algorithms it doesn't seem to be so great because of the worst case $O(n^2)$ time that it can take. However, it is extremely unlikely for that case to take place. The behavior of Quicksort for smaller n seems to be much faster than that of the algorithms which do not have as high of a worst-case condition. The
+sorting algorithms it doesn't seem to be so great because of the worst case $O(n^2)$ time that it can take. However, it is extremely unlikely for that case to take place. Its performance is also very good on lists that are not "nearly-sorted" which was the type of data we were feeding it.  The behavior of Quicksort for smaller n seems to be much faster than that of the algorithms which do not have as high of a worst-case condition. The
 trickiest part is getting a good pivot value. By getting a lucky pivot value the
 divide portion of this divide-and-conquer algorithm is more effective. The
 reason $O(n^2)$ is possible is that the recursion only stops when the list being
 sorted has been reduced to size one. So if every pivot value is the worst
 possible pivot value, every divide will result in an empty list, and an n-1
-sized list. We have drawn an example of Quicksort in action.
+sized list. Figure 1 is a hand-drawn example of Quicksort in action.
 
-% quicksort.jpg goes here
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.8\textwidth]{quicksort-drawing.jpg}
+  \caption{Walkthrough of quicksort}
+\end{figure}
 
 % testing
 In order to verify that our algorithms were sound, we implemented a good deal of
