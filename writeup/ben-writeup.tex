@@ -28,21 +28,29 @@ This project is an assessment of several sorting algorithms. We chose to impleme
 \item Quick, average $O(n$ lg $n)$ worst-case $O(n^2)$
 \item Merge, average and worst-case $O(n$ lg $n)$
 \end{itemize}
-These four algorithms were implemented and tested in two languages: C++ and Java. We had initially planned on including Python and Haskell, but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and C++ algorithms. Each program tested 100 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data (lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
+These four algorithms were implemented and tested in two languages: C++ and Java. We had initially planned on including Python and Haskell, 
+but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and 
+C++ algorithms. Each program tested 900 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 
+10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how 
+complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data 
+(lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
 
 \section*{Background}
 
 We split up the main algorithms we would need to write so that each of us would be
 writing them in two languages. Russell worked in Java and Python while Ben worked in Haskell and C++. Russell has
 written a lot of small Python programs, and a few medium-scale ones. Java was a
-major refresher for him, as it has been a while. Ben was fairly new to Haskell and hadn't used C++ much since his freshman year of college, so Russell was helpful when he got stuck. Writing the algorithms themselves took very little time, especially in Python and Haskell. The language is so straight-forward that if you know what you want to do you can have something working in very little time. Later 
-in this paper, we'll discuss one of its weak points. We also used Python to 
-generate our lists. 
+major refresher for him, as it has been a while. Ben was fairly new to Haskell and hadn't used C++ much since his 
+freshman year of college, so Russell was helpful when he got stuck. Writing the algorithms themselves took very 
+little time, especially in Python and Haskell. These languages are so straight-forward that if you know what you 
+want to do you can have something working in very little time. Later 
+in this paper, we'll discuss one of Python's weak points. We also used Python to 
+generate our lists and write them to files.
 
 % generating the lists
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
-languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare one language to another, it would be unfair to compare their performance if they were operating on different data. There were many struggles when we were developing this list generator.
+languages. The reason behind this was our plan of comparing the implementations across languages. That is, if we wanted to compare one language to another, it would be unfair to compare their performance if they were operating on different data. There were many struggles when we were developing this list generator.
 It took several tries to figure out how to build up the right amount of data in 
 memory before writing it to a file, because we did not want to spend extra time 
 doing more File I/O than necessary. 
@@ -55,7 +63,9 @@ the system ran out of memory before it could finish.
 
 Next we decided to write each list to a file, one by one, rather than storing all 
 of the information in memory and attempting to write all of the files at the end. 
-This worked, but it took quite a considerable amount of time. This is the method we used; it was slow but got the work done.
+This worked, but it took quite a considerable amount of time. 
+We also had difficulty with the disk space all of these lists took up.
+We eventually reduced the number of each size of list from 1000 to 100.
 
 % struggles with java
 One of the biggest struggles we faced while working with Java was determining how 
