@@ -101,7 +101,7 @@ in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
 
 \section*{Findings and Analysis}
-Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$, using a trend line with regression type "power" for bubble, insertion and merge sort and logarithmic for quick sort. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
+Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
 \\ \\ \\
 \begin{table}\footnotesize
 \begin{center}
@@ -163,7 +163,51 @@ sized list. Figure 1 is a hand-drawn example of Quicksort in action.
   \caption{Walkthrough of quicksort}
 \end{figure}
 
-The easiest algorithm to implement was bubble sort
+The easiest algorithm to implement was bubble sort. The complexity is average case$O(n^2)$, as is shown in our comparison graphs. The reason that the complexity is so bad is as follows. It walks along the array/list (which is size n) and compares each item in order. When it gets through the list, it starts over, and on average has to walk through the list n times because it's only fixing (more or less) one thing at a time each time it walks through. I feel that detailed comments are the best way I can explain how bubble sort works:
+\linespread{1}
+
+\begin{verbatim}
+
+void arrObj::bubbleSort()
+{
+    int swap;
+    do{
+
+        swap = 0; // swap is like a bool, it tells do-while 
+                  //to loop if the list is not sorted
+
+        for (int n = 1; n < arrSize; n++) {
+                 // each time we enter into the do-while loop, the
+                 // for loop traverses the entire array, comparing
+                 // array[n-1] to array[n]. When it finds that 
+                 // array[n-1] is greater than array[n], 
+                 // it first sets swap to 1 (so we do-while again, then it swaps.
+                 // In my implementation, I use the variable temp to store
+                 // array[n-1]s valueÉ copy the value in array[n] to array[n-1]
+                 // and then finally copy temps value to array[n].
+		
+            if (arrBubble[n-1] > arrBubble[n]) {
+                swap = 1;
+                int temp = arrBubble[n-1];
+                arrBubble[n-1] = arrBubble[n];
+                arrBubble[n] = temp;
+            }
+        }
+    }while(swap == 1);
+                // When we finally get here, if swap is set to 1, we have to 
+                // walk the entire array again, doing the for loop. Eventually
+                // we will sort the list.
+    //assert(isSorted(arrBubble));
+}
+\end{verbatim}
+Figure XXXXXXXXXXXX has a walk-through of bubble Sort on a small array, to show how it works.
+\begin{figure}
+  \centering
+    \includegraphics[width=.7\textwidth]{bSortWalk.png}
+  \caption{Walkthrough of bubbleSort}
+\end{figure}
+
+Merge sort is much faster than bubble sort. We have included a walk through of merge sort in Figure XXXXXXXXXX. Merge sort takes a list and keeps splitting it into smaller lists until each list has one element in it (as seen in the top half of FIgure XXXXXXXXXXXX. This dividing takes $O($log $n$) time, because you're dividing in half every time. Ss you recurse back up the tree, each merge of a size r list and a size s list takes $r+s-1$ comparisons, which is $O(r+s)$ The final merge will be $r+s$, which is the size of the list, $n$. When you combine these you get $O(n$ log $n$).
 
 % testing
 In order to verify that our algorithms were sound, we implemented a good deal of
