@@ -7,8 +7,8 @@
 
 % See the ``Article customise'' template for come common customisations
 
-\title{THIS IS THE TITLE}
-\author{THESE ARE THE PEOPLE}
+\title{Term Paper - CS350}
+\author{Russell Miller and Ben Carr}
 \date{\today} % delete this line to display the current date
 
 %%% BEGIN DOCUMENT
@@ -40,9 +40,7 @@ generate our lists.
 % generating the lists
 We decided that it would be good to have a consistent set of lists that are 
 randomly generated to use across all of the sorting algorithms and all of the 
-languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare language $L_1$ to language $L_2$ it would be unfair to compare their performance of they were operating on different data.
-
-There were many struggles when we were developing this list generator.
+languages. The reason behind this was our plan of comparing the implementations across languages, that is, if we wanted to compare language $L_1$ to language $L_2$ it would be unfair to compare their performance of they were operating on different data. There were many struggles when we were developing this list generator.
 It took several tries to figure out how to build up the right amount of data in 
 memory before writing it to a file, because we did not want to spend extra time 
 doing more File I/O than necessary. 
@@ -68,13 +66,17 @@ of the primary class. Rather, we used four arrays, one dedicated to each
 algorithm.
 
 The next tricky thing was figuring out how to run the stopwatch on the 
-algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in.
-
-We had just gotten done working on the
-timer in C++ and easily stuck it between the loop that switched between
-different sizes of lists and the loop that iterated through each list of the
-same size. 
-
+algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library \texttt{sys/time.h} which gives clock cycles per second. We wanted it in seconds so ended up trying \texttt{gettimeofday()}, but that function returns seconds (or the nanoseconds AFTER the decimal) so that was a total mess to work with. We ended up using \texttt{clock()} and some simple arithmetic to get the time format to be exactly how we wanted:
+\linespread{1}
+\begin{verbatim}
+double diffclock(clock_t t1, clock_t t2)
+{
+  double diffticks = t2 - t1;
+  double diffms = diffticks / (double)CLOCKS_PER_SEC;
+  return diffms;
+}
+\end{verbatim}
+\linespread{1.5}
 The final struggle while working in Java, which carried over to implementing it
 in C++ as well, was the merge sort. Because the merge sort works with a set of
 lists whose sizes are constantly-changing, arrays would simply not do the trick.
@@ -90,14 +92,14 @@ the Java code to the C++ code.
 Once we verified that all of the sorts were in fact sorting, adjusted the output
 that would be written to the CSV file, tested the stopwatch, and did a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
-before completing all of the lists. 
-%ADD MORE HERE
-%ONCE JAVA PROGRAM DONE RUNNING
-
 and still had not finished. At this point we became very worried, so we tried
 timing a single list of size 100,000. In java it only took about 30 seconds, but
 in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
+
+\section*{ANALYSIS}
+
+After this change, our Java program ran in about 2 hours, on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. 
 
 % understanding algorithms
 While putting these sorting algorithms into our programs, one thing that helped
@@ -110,10 +112,7 @@ rest of the array based on whether the values are less than or greater than the
 pivot. It's recursive so you then apply this to those two new arrays.
 
 The Quicksort is a strange beast. When compared with the complexity of other
-sorting algorithms it doesn't seem to be so great because of the worst case $O(n^2)$
-time that it can take. However, it is extremely unlikely for that case to take
-place. The behavior of Quicksort for smaller n seems to be much faster than that
-of the algorithms which do not have as high of a worst-case condition. The
+sorting algorithms it doesn't seem to be so great because of the worst case $O(n^2)$ time that it can take. However, it is extremely unlikely for that case to take place. The behavior of Quicksort for smaller n seems to be much faster than that of the algorithms which do not have as high of a worst-case condition. The
 trickiest part is getting a good pivot value. By getting a lucky pivot value the
 divide portion of this divide-and-conquer algorithm is more effective. The
 reason $O(n^2)$ is possible is that the recursion only stops when the list being
@@ -132,6 +131,5 @@ has a built in function called sort, so we simply checked that the list we
 sorted was the same as the one Python sorted. In Java there was also a built-in
 sort function call. In C++ we iterated through the array, making sure that every
 value was less than its successor.
-
 \end{document}
 
