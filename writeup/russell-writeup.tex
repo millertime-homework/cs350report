@@ -1,38 +1,17 @@
 % Russell Writeup
 
-% understanding algorithms - insertion sort
-The insertion sort is a particularly bad algorithm. What it does is iterate
-through the list, starting at the second element. This iteration is O(n). For
-each iteration, There is also a while loop that starts at that point and goes
-backwards towards the beginning of the list swapping values that are out of
-order. The example I wrote shows how the "key" value is iterating across the
-array, and each time a new "key" is assigned a value, the while loop causes
-swaps towards the beginning. In asymptotic terms, the while loop is also O(n).
-Most of the time, the while loop that happens after each new value is assigned
-to "key" does not actually traverse all the way to the beginning of the array,
-so the worst-case condition is not highly probable. On a sorted list, the
-condition to enter the while loop is always false and the complexity is O(n) for
-the entire sort, because it is handled with just the for loop.
-
-% reflections on our data
-As the data has clearly shown, and was discussed earlier, Quicksort was the
-reigning champion of our small collection of algorithms. While we were in class
-we learned about Merge Sort and how it does not have a worst-case complexity as
-high as Quicksort does. This led us to believe that Merge Sort would be the
-fastest of the four, however our results showed that not to be the case in
-practice. The Merge Sorts we wrote in C++ and Java were actually a different
-style than all other sorts. They used List objects that constantly changed size
-and were passed in recursive calls. All of the other algorithms were sorting in
-place on arrays. If we had taken the time to implement an in place Merge Sort we
-would have probably seen it show up right next to Quicksort on the graph. Due to
-time constraints, we had to accept our results and spend time reflecting on what
-we wish we had time to improve.
-
-Another thing that we didn't expect was to see Java getting faster times than
-C++. Because Java runs in a virtual machine, it has a reputation of not running
-as fast as its hardware-intimate cousin C++. We made sure to run the C++ program
-with the compiler's optimization flag turned on, and used the latest GNU C
-Compiler. Most of the algorithms are very similar, and some are identical. It is
-not fully clear why it didn't perform as well. If we had more time we possibly
-could have verified the algorithms to be sound by going through several
-examples together.
+% understanding algorithms - complexity of quicksort
+The complexity of Quicksort can vary considerably depending on the layout of the
+data being sorted and on how the pivot value is picked. Carefully picking a
+pivot value can be considered optimization and in our algorithms we didn't do
+anything special to pick ours. This is a divide and conquer algorithm, and on
+average can do O(n logn). The conquer part is a platform-specific complexity
+because sometimes concatenating lists or arrays together can be constant, but is
+usually a linear operation. The divide happens around a pivot value, and if the
+pivot value is greater than half of the array and less than the other half there
+will be a logarithmic complexity for the divide. If the pivot value causes one
+side of the division to be a lot larger than the other, the complexity moves
+toward quadratic. The nice thing about this algorithm, though, is it doesn't
+need to do as many comparisons as Merge Sort. Once it has done its full
+recursion it is simply concatenating results together. This may be the primary
+reason for Quicksort's victory.
