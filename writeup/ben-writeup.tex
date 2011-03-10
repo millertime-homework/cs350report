@@ -29,6 +29,7 @@ This project is an assessment of several sorting algorithms. We chose to impleme
 \item Merge, average and worst-case $O(n$ lg $n)$
 \end{itemize}
 These four algorithms were implemented and tested in two languages: C++ and Java. We had initially planned on including Python and Haskell, but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and C++ algorithms. Each program tested 100 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data (lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
+
 \section*{Background}
 
 We split up the main algorithms we would need to write so that each of us would be
@@ -66,6 +67,7 @@ accessing the same array, and unfortunately we did not abstract the sorting out
 of the primary class. Rather, we used four arrays, one dedicated to each 
 algorithm.
 
+% timing issues
 The next tricky thing was figuring out how to run the stopwatch on the 
 algorithms while they sort the lists. The way the Java program was laid out, we were able to place the stopwatch calls right next to the sort method calls, and we used public methods to retrieve the times from the private fields they were stored in. We also had trouble with timing our C++ algorithms. Initially we tried using the C++ function \texttt{clock()} from the library \texttt{sys/time.h} which gives clock cycles per second. We wanted it in seconds so ended up trying \texttt{gettimeofday()}, but that function returns seconds (or the nanoseconds AFTER the decimal) so that was a total mess to work with. We ended up using \texttt{clock()} and some simple arithmetic to get the time format to be exactly how we wanted:
 \linespread{1}
@@ -82,14 +84,8 @@ double diffclock(clock_t t1, clock_t t2)
 The final struggle while working in Java, which carried over to implementing it
 in C++ as well, was the merge sort. The way we understood the merge sort algorithm
 was that it split the list into two smaller lists and recursed down to those. Then
-the merge action put the smaller lists back together. Algorithms exist to do this in
-place with an array, but the easier implementation was to try the Java \texttt{List} class.
-In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
-allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also
-a \texttt{get} function that allows you to refer to a specific index. Both of these
-operations came in handy. C++ has lists in its standard library, and though it
-did not have the get method, it was not difficult to make the translation from
-the Java code to the C++ code.
+the merge action put the smaller lists back together. Algorithms exist to do this in place with an array, but the easier implementation was to try the Java \texttt{List} class. In attempting to learn to use it, we also discovered the magic of the \texttt{ArrayList} class. Basically, it
+allows you to do list operations such as \texttt{cons} (Java calls it \texttt{add}), and there is also a \texttt{get} function that allows you to refer to a specific index. Both of these operations came in handy. C++ has lists in its standard library, and though it did not have the get method, it was not difficult to make the translation from the Java code to the C++ code.
 
 % struggles with list sizes
 Once we verified that all of the sorts were in fact sorting, adjusted the output
@@ -101,7 +97,7 @@ in C++ it took 3 minutes. We decided this could be our new size limit, and not
 go all the way to one million.
 
 \section*{Findings and Analysis}
-Our Java program ran in about 2 hours, and C++ took approximately 3 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
+Our Java program ran in about 2 hours, and C++ took approximately 10 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
 \\ \\ \\
 \begin{table}\footnotesize
 \begin{center}
@@ -138,6 +134,35 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge\\ \hline
 
 
 \section*{Understanding Algorithms}
+% understanding algorithms - insertion sort
+The insertion sort is a particularly bad algorithm. What it does is iterate
+through the list, starting at the second element. This iteration is O(n). For
+each iteration, There is also a while loop that starts at that point and goes
+backwards towards the beginning of the list swapping values that are out of
+order. The example I wrote shows how the "key" value is iterating across the
+array, and each time a new "key" is assigned a value, the while loop causes
+swaps towards the beginning. In asymptotic terms, the while loop is also O(n).
+Most of the time, the while loop that happens after each new value is assigned
+to "key" does not actually traverse all the way to the beginning of the array,
+so the worst-case condition is not highly probable. On a sorted list, the
+condition to enter the while loop is always false and the complexity is O(n) for
+the entire sort, because it is handled with just the for loop.
+
+% understanding algorithms - complexity of quicksort
+The complexity of Quicksort can vary considerably depending on the layout of the
+data being sorted and on how the pivot value is picked. Carefully picking a
+pivot value can be considered optimization and in our algorithms we didn't do
+anything special to pick ours. This is a divide and conquer algorithm, and on
+average can do O(n logn). The conquer part is a platform-specific complexity
+because sometimes concatenating lists or arrays together can be constant, but is
+usually a linear operation. The divide happens around a pivot value, and if the
+pivot value is greater than half of the array and less than the other half there
+will be a logarithmic complexity for the divide. If the pivot value causes one
+side of the division to be a lot larger than the other, the complexity moves
+toward quadratic. The nice thing about this algorithm, though, is it doesn't
+need to do as many comparisons as Merge Sort. Once it has done its full
+recursion it is simply concatenating results together. This may be the primary
+reason for Quicksort's victory.
 
 % understanding algorithms
 While putting these sorting algorithms into our programs, one thing that helped
@@ -181,9 +206,10 @@ void arrObj::bubbleSort()
                  // for loop traverses the entire array, comparing
                  // array[n-1] to array[n]. When it finds that 
                  // array[n-1] is greater than array[n], 
-                 // it first sets swap to 1 (so we do-while again, then it swaps.
-                 // In my implementation, I use the variable temp to store
-                 // array[n-1]s valueÉ copy the value in array[n] to array[n-1]
+                 // it first sets swap to 1 (so we do-while again, 
+                 // then it swaps. In my implementation, I use the 
+                 // variable temp to store array[n-1]s valueÉ 
+                 // copy the value in array[n] to array[n-1]
                  // and then finally copy temps value to array[n].
 		
             if (arrBubble[n-1] > arrBubble[n]) {
@@ -219,8 +245,8 @@ Figure XXXXXXXXXXXX has a walk-through of bubble Sort on a small array, to show 
 % merge Sort Walkthrough
 \begin{figure}
   \centering
-    \includegraphics[width=.7\textwidth]{insertion-drawing.jpg}
-  \caption{Walkthrough of bubbleSort}
+    \includegraphics[width=.7\textwidth]{mergeSortdrawing.jpg}
+  \caption{Walkthrough of merge sort}
 \end{figure}
 
 Merge sort is much faster than bubble sort. We have included a walk through of merge sort in Figure XXXXXXXXXX. Merge sort takes a list and keeps splitting it into smaller lists until each list has one element in it (as seen in the top half of FIgure XXXXXXXXXXXX. This dividing takes $O($log $n$) time, because you're dividing in half every time. Ss you recurse back up the tree, each merge of a size r list and a size s list takes $r+s-1$ comparisons, which is $O(r+s)$ The final merge will be $r+s$, which is the size of the list, $n$. When you combine these you get $O(n$ log $n$).
@@ -234,5 +260,29 @@ has a built in function called sort, so we simply checked that the list we
 sorted was the same as the one Python sorted. In Java there was also a built-in
 sort function call. In C++ we iterated through the array, making sure that every
 value was less than its successor.
+
+% reflections on our data
+As the data has clearly shown, and was discussed earlier, Quicksort was the
+reigning champion of our small collection of algorithms. While we were in class
+we learned about Merge Sort and how it does not have a worst-case complexity as
+high as Quicksort does. This led us to believe that Merge Sort would be the
+fastest of the four, however our results showed that not to be the case in
+practice. The Merge Sorts we wrote in C++ and Java were actually a different
+style than all other sorts. They used List objects that constantly changed size
+and were passed in recursive calls. All of the other algorithms were sorting in
+place on arrays. If we had taken the time to implement an in place Merge Sort we
+would have probably seen it show up right next to Quicksort on the graph. Due to
+time constraints, we had to accept our results and spend time reflecting on what
+we wish we had time to improve.
+
+Another thing that we didn't expect was to see Java getting faster times than
+C++. Because Java runs in a virtual machine, it has a reputation of not running
+as fast as its hardware-intimate cousin C++. We made sure to run the C++ program
+with the compiler's optimization flag turned on, and used the latest GNU C
+Compiler. Most of the algorithms are very similar, and some are identical. It is
+not fully clear why it didn't perform as well. If we had more time we possibly
+could have verified the algorithms to be sound by going through several
+examples together.
+
 \end{document}
 
