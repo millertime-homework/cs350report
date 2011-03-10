@@ -111,11 +111,21 @@ that would be written to the CSV file, tested the stopwatch, and did a dry-run
 on a small set of lists, it was time to ship it. The program ran for two days
 and still had not finished. At this point we became very worried, so we tried
 timing a single list of size 100,000. In java it only took about 30 seconds, but
-in C++ it took 3 minutes. We decided this could be our new size limit, and not
-go all the way to one million.
+in C++ it took 3 minutes. We later discovered that this enormous difference in time
+for these very similar languages was due to leaving some extra asserts in the code
+and forgetting to comment them out for the stopwatch trials. Still, at this point
+we decided to reduce our list size limit to 100,000 instead of one million.
 
 \section*{Findings and Analysis}
-Our Java program ran in about 2 hours, and C++ took approximately 10 hours on list sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. for each $n$, each algorithm ran on 100 lists (the total number of lists the program sorted was $100 * |n| = 900)$. The average time for each algorithm (in seconds) was recorded and can be found in Table 1. We wanted to see how consistent the algorithms were behaving, figures 2-5 shows each trials execution time, (for each algorithm). Finally we wanted to see a comparison of the algorithms against each other, Figure 6 is a graph of the averages as we approach our maximum $n$. Quicksort ran incredibly fast, so we decided to run it on larger lists (up to n = 10,000,000). Table 2 shows this graph against $n$ log $n$
+Our C++ and Java programs took a total elapsed time of about 2 hours to sort all of the lists, 
+sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. For each of these sizes, 
+100 different lists were sorted by each algorithm (the total number of lists the program sorted was $100 * |n| = 900)$. 
+The average time for each algorithm (in seconds) was recorded and can be found in Table 1, and  
+Figure 6 is a graph of these averages. We wanted to see how consistent the algorithms were behaving, and figures 2 through 5 show each trial's 
+execution time (for each algorithm). Quicksort ran incredibly fast, so we decided to run it on larger 
+lists (up to n = 100,000,000). Table 2 shows the Quicksort against the calculated $n$ log $n$ values.
+Note that in C++ our values of $n$ were much higher. When attempting those values with Java, the virtual machine
+ran out of memory and threw an exception so a lower limit was used.
 \\ \\ \\
 \begin{table}\footnotesize
 \begin{center}
