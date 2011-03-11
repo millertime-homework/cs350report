@@ -8,7 +8,7 @@
 
 % See the ``Article customise'' template for come common customisations
 
-\title{Term Paper - CS350}
+\title{Comparing Sorting Algorithms - CS350}
 \author{Russell Miller and Ben Carr}
 \date{\today} % delete this line to display the current date
 
@@ -32,8 +32,8 @@ These four algorithms were implemented and tested in two languages: C++ and Java
 but due to time constraints and the limitations of Python, we were only able to collect significant data and run analysis on our Java and 
 C++ algorithms. Each program tested 900 completely random unsorted lists of integers, each of size $n = $ \{10, 50, 100, 500, 1000, 5000, 
 10000, 50000, 100000\}. This paper will discuss our findings, assess our results and communicate to the reader our understanding of how 
-complexity theory comes up in practice. We found that quicksort ran exceptionally fast on these random lists, so additional data 
-(lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on quicksort.\\
+complexity theory comes up in practice. We found that Quicksort ran exceptionally fast on these random lists, so additional data 
+(lists size "n" up to 10,000,000 for Java and 100,000,000 for C++) was run on Quicksort.\\
 
 \section*{Background}
 
@@ -104,7 +104,7 @@ dry erase board. In addition, we made sure to test them all and verify that they
 were doing their job. The first sort we studied was the Quicksort. It turns out
 it is a relatively simple algorithm. Figure 1 has a Quicksort example. When looking at an array of numbers, you simply pick a value that is present
 \begin{center}
-    \includegraphics[width=.6\textwidth]{quicksort-drawing.jpg}\\
+    \includegraphics[width=.6\textwidth]{Quicksort-drawing.jpg}\\
     {\scshape Figure 1.} Example of Quicksort
 \end{center}
  in the array - the pivot - and divide the 
@@ -115,7 +115,7 @@ pivot. It's recursive so you then apply this to those two new arrays.
 The Quicksort is a strange beast. When compared with the complexity of other
 sorting algorithms it doesn't seem to be so great because of the worst case $O(n^2)$ time that it can take. However, it is extremely unlikely for that case to take place. Its performance is also very good on lists that are not "nearly-sorted" which was the type of data we were feeding it.  The behavior of Quicksort for smaller n seems to be much faster than that of the algorithms which do not have as high of a worst-case condition. The trickiest part is getting a good pivot value. 
 \begin{center}
-    \includegraphics[width=.7\textwidth]{quicksort-worstcase.jpg}\\
+    \includegraphics[width=.7\textwidth]{Quicksort-worstcase.jpg}\\
     {\scshape Figure 2.} Example of Quicksort's worst-case
 \end{center}
 By getting a lucky pivot value the
@@ -125,7 +125,7 @@ sorted has been reduced to size one. So if every pivot value is the worst
 possible pivot value, every divide will result in an empty list, and an n-1
 sized list. Figure 2 is a hand-drawn example of Quicksort's worst-case.
 
-% understanding algorithms - complexity of quicksort
+% understanding algorithms - complexity of Quicksort
 The complexity of Quicksort can vary considerably depending on the layout of the
 data being sorted and on how the pivot value is picked. Carefully picking a
 pivot value can be considered optimization and in our algorithms we didn't do
@@ -223,13 +223,14 @@ Figure 4. has a walk-through of bubble Sort on a small array, to show how it wor
 
 Merge sort is much faster than bubble sort. We have included a walk through of merge sort in Figure 5. Merge sort takes a list and keeps splitting it into smaller lists until each list has one element in it (as seen in the top half of FIgure 5. This dividing takes $O($log $n$) time, because you're dividing in half every time. Ss you recurse back up the tree, each merge of a size r list and a size s list takes $r+s-1$ comparisons, which is $O(r+s)$ The final merge will be $r+s$, which is the size of the list, $n$. When you combine these you get $O(n$ log $n$).
 
+%Findings/ANAlysis
 \section*{Findings and Analysis}
 Our C++ and Java programs took a total elapsed time of about 2 hours to sort all of the lists, 
 sizes $n = $ \{10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000\}. For each of these sizes, 
 100 different lists were sorted by each algorithm (the total number of lists the program sorted was $100 * |n| = 900)$. 
-The average time for each algorithm (in seconds) was recorded for Java and C++ and can be found in Table 1 and Table 2 respectively. Figure 6 and Figure 7 are the graphs of these averages. We wanted to see how consistent the algorithms were behaving; Figure 3 and Figure 4 show each trial's 
+The average time for each algorithm (in seconds) was recorded for Java and C++ and can be found in Table 1 and Table 2 respectively. Figure 6 and Figure 7 are the graphs of these averages. We wanted to see how consistent the algorithms were behaving; Figure 8 and Figure 9 show each trial's 
 execution time for each algorithm. Quicksort ran incredibly fast, so we decided to run it on larger 
-lists (up to n = 100,000,000). Figure 5 shows the Quicksort against the calculated $n$ log $n$ plot.
+lists (up to n = 100,000,000). Figure 10 shows the Quicksort behavior against the calculated $n$ log $n$ plot.
 Note that in C++ our values of $n$ were much higher. When attempting those values with Java, the virtual machine
 ran out of memory and threw an exception so a lower limit was used.
 \newpage
@@ -285,18 +286,66 @@ List Size	&	Quick	&	Bubble	&	Insertion	&	Merge \\ \hline
   {\scshape Figure 7.} Behavior of sorts against each other in C++
 \end{center}
 
+\newpage %Consistency Graphs
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{JQuickCG.png}\\
+\end{center}
+
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{JBubbleCG.png}\\
+\end{center}
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{JInsertionCG.png}\\
+\end{center}
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{JMergeSortCG.png}\\
+    {\scshape Figure 8.} Java Sort consistency graphs
+\end{center}
+
+\newpage %Consistency Graphs
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{CQuickCG.png}\\
+\end{center}
+
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{CBubbleCG.png}\\
+\end{center}
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{CInsertionCG.png}\\
+\end{center}
+\begin{center}
+  \centering
+    \includegraphics[width=1.0\textwidth]{CMergeCG.png}\\
+    {\scshape Figure 9.} C++ Sort consistency graphs
+\end{center}
+In Figure 9, it is clear that Quicksort was consistent on all but 2 of the arrays it sorted. This is a clear example of how Quicksort can suffer in rare cases.
+Because we do not have the ability to look at a long list of numbers and recognize patterns it is not quite as clear \emph{why} the times for those 2 arrays were
+greater, but we do have physicaly verification of the lack of consistency that is present with Quicksort. All of the other sorts were relatively smooth across
+these graphs.
+\newpage
+
+
+
+\newpage
+\newpage %Hardcore Quicksort
 \begin{center}
   \centering
     \includegraphics[width=.7\textwidth]{JHardcoreQS.png}\\
-  {\scshape Figure 8.} Behavior of Java quick sort for $n$ up to 10,000,000
 \end{center}
 
 \begin{center}
   \centering
     \includegraphics[width=.7\textwidth]{CHardcoreQS.png}\\
-  {\scshape Figure 9.} Behavior of C++ quick sort for $n$ up to 100,000,000
+  {\scshape Figure 10.} Behavior of Quicksort on large $n$
 \end{center}
-
+\newpage
 
 \section*{Testing Methods and List Generation Strategies}
 % testing
@@ -335,25 +384,11 @@ As the data has clearly shown, and was discussed earlier, Quicksort was the
 reigning champion of our small collection of algorithms. While we were in class
 we learned about Merge Sort and how it does not have a worst-case complexity as
 high as Quicksort does. This led us to believe that Merge Sort would be the
-fastest of the four, however our results showed that not to be the case in
-practice. The Merge Sorts we wrote in C++ and Java were actually a different
-style than all other sorts. They used List objects that constantly changed size
-and were passed in recursive calls. All of the other algorithms were sorting in
-place on arrays. If we had taken the time to implement an in place Merge Sort we
-would have probably seen it show up right next to Quicksort on the graph. Due to
-time constraints, we had to accept our results and spend time reflecting on what
-we wish we had time to improve.
-
-Another thing that we didn't expect was to see Java getting faster times than
-C++. Because Java runs in a virtual machine, it has a reputation of not running
-as fast as its hardware-intimate cousin C++. We made sure to run the C++ program
-with the compiler's optimization flag turned on, and used the latest GNU C
-Compiler. Most of the algorithms are very similar, and some are identical. It is
-not fully clear why it didn't perform as well. If we had more time we possibly
-could have verified the algorithms to be sound by going through several
-examples together.
+fastest of the four, however our results showed that not to be the case in practice.
 
 As discussed earlier, we had to take our number-of-list size down to 100 which is an example of how complexity theory shows up in practice. We also set out to sort lists of size up to 1,000,000. After running our algorithms for several hours, it became apparent that the programs were not going to terminate in time, most likely due to the worst sorting algorithm we implemented, bubble sort with an average $O(n^2)$ behavior. So, in practice, to prepare usable data, we had to consider the complexity an alter our process so we would have usable data in enough time to run analysis for this project.
+\newpage
+We think the reason that Quicksort worked so well for our data was because the data we were giving it was totally random. Had we chosen to feed nearly sorted or sorted lists to our algorithms, we would have seen drastically different results. For example Quicksort would have taken much longer, and bubble sort would have performed much more effectively.
 
 \end{document}
 
