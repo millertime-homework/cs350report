@@ -1,11 +1,7 @@
 % Russell Writeup
 
 % understanding algorithms - complexity of quicksort
-In order to verify that our algorithms were sound, we implemented a good deal of testing. The test set we used while developing was 100 lists of size 10. In order to
-verify that a list was sorted after an algorithm ran, we used assertions to make sure that regression was never introduced. In Java, there was a method available
-to sort an Array. After running all of the sorts, we created a test copy of the original array data, ran the Java array sort on it, and iterated through each
-array our algorithms sorted making sure that each value of the arrays matched. Not only does this verify that the array is sorted, but it also verifies that no values
-have mysteriously disappeared from the original data. C++ was not quite as elegant. We simply iterated through the arrays that we believed were sorted, and made sure
-each value was less than its successor. Not only were we preventive with making sure our algorithms were sound, but we ran our timers multiple times due to the results
-that were gathered. We knew something was wrong when C++ was taking four times longer than Java, and further investigation showed us that there were assertions being run
-that should have been disabled while the timer was going. Our final run had results that were much more realistic, where C++ and Java took a very similar amount of time.
+In Figure 9, it is clear that Quicksort was consistent on all but 2 of the arrays it sorted. This is a clear example of how Quicksort can suffer in rare cases.
+Because we do not have the ability to look at a long list of numbers and recognize patterns it is not quite as clear \emph{why} the times for those 2 arrays were
+greater, but we do have physicaly verification of the lack of consistency that is present with Quicksort. All of the other sorts were relatively smooth across
+these graphs.
